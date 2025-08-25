@@ -1,0 +1,23 @@
+<!-- 
+In Flask, the purpose of this page is to serve as a skeleton to many index.html files, 
+so that I can inherit this page and just have to write only the page-specific parts in each index.html file.
+Raymond Kil, August 2025 (jkil@nd.edu)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--mobile compatibility-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <meta name="description" content="About Raymond Kil.">
+    <link rel="icon" href="nd_logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block head %}{% endblock %} <!-- This is a Flask syntax saying "Insert head here." -->
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+
+</html>

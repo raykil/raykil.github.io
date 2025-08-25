@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ slug }} — Notebook{% endblock %}
+
+{% block body %}
+  <article class="notebook-container">
+    {{ nb_html|safe }}
+  </article>
+  <a href="{{ url_for('articles') }}" class="return-home-btn">Return to Articles</a>
+{% endblock %}
