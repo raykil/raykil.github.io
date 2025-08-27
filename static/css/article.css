@@ -1,9 +1,18 @@
-h1 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 600;
-    font-size: 55px;
-    line-height: 1.2;
-    color: #36ba5d;
+.article-layout {
+    display: flex;
+    align-items: flex-start;
+}
+
+.contents-nav {
+    position: sticky;
+    top: 100px; /* sticks when scrolling */
+    flex: 0 0 220px; /* fixed width */
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 15px;
+    border-right: 2px solid #ddd;
+    background-color: #0e147d;
+    border-radius: 8px;
 }
 
 .notebook-container {

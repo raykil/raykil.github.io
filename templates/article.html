@@ -1,15 +1,27 @@
 {% extends 'base.html' %}
 
-{% block page_css %}
+{% block head %}
+<title>Raymond Kil - Notre Dame Physics</title> <!--Need to feed in title from app.py-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
 {% endblock %}
 
 {% block title %}Raymond Kil - {{ slug }}{% endblock %}
 
 {% block body %}
   <h1>{{title}}</h1>
-  <p>{{slug}}</p>
-  <article class="notebook-container">
-    {{ nb_html|safe }}
-  </article>
+
+  <div class="article-layout">
+    <nav class="contents-nav">
+      <ul>
+        <li><a href="#section1">Introduction</a></li>
+        <li><a href="#section2">Main Topic</a></li>
+        <li><a href="#section3">Details</a></li>
+        <li><a href="#section4">Conclusion</a></li>
+      </ul>
+    </nav>
+    <article class="notebook-container">
+      {{ nb_html|safe }}
+    </article>
+  </div>
   <a href="{{ url_for('articles') }}" class="return-home-btn">Return to Articles</a>
 {% endblock %}
