@@ -51,7 +51,10 @@ def get_articles_info(slug): # slug is a string, the name of article directory. 
     notebook_name = [ipynb for ipynb in os.listdir(article_dir) if '.ipynb' in ipynb]
     ipynb_path = os.path.join(article_dir, notebook_name[0])
     nb_html = ipynb2html(ipynb_path)
-    return render_template("article.html", slug=slug, nb_html=nb_html)
+
+    # Pass in title in article page.
+    with open(f"{scriptPath}/articles/{slug}/title.txt", 'r') as t: title = t.read().strip() or slug
+    return render_template("article.html", slug=slug, nb_html=nb_html, title=title)
 
 @app.route('/particles')
 def particles():
