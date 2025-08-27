@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ slug }} — Notebook{% endblock %}
+{% block page_css %}
+{% endblock %}
+
+{% block title %}Raymond Kil - {{ slug }}{% endblock %}
 
 {% block body %}
+  <h1>{{title}}</h1>
+  <p>{{slug}}</p>
   <article class="notebook-container">
     {{ nb_html|safe }}
   </article>

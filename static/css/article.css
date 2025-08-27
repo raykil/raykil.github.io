@@ -1,0 +1,14 @@
+h1 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 55px;
+    line-height: 1.2;
+    color: #36ba5d;
+}
+
+.notebook-container {
+    max-width: 900px;
+    border: #0c2340;
+    background-color: #f27e7e;
+    margin: 0 auto;
+}
