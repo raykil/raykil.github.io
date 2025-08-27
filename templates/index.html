@@ -2,6 +2,7 @@
 
 {% block head %}
 <title>Raymond Kil - Notre Dame Physics</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 
 
@@ -14,4 +15,5 @@
         <a href="/particles">Particles</a>
     </div>
 </nav>
+<img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="profile picture">
 {% endblock %}

@@ -2,6 +2,23 @@ p {
     color: aliceblue;
 }
 
+img {
+    width: 600px;
+    height: auto;
+    animation: slideIn 0.8s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .nav-links {
     height: 95%;
     width: 50%;
@@ -33,3 +50,4 @@ p {
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
 }
+
