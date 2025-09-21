@@ -54,8 +54,8 @@ def get_articles_info(dirname):
     nb_html = ipynb2html(ipynb_path)
 
     # Pass in title in article page.
-    with open(f"{scriptPath}/articles/{dirname}/title.txt", 'r') as t: title = t.read().strip() or dirname
-    return render_template("article.html", dirname=dirname, nb_html=nb_html, title=title)
+    # with open(f"{scriptPath}/articles/{dirname}/title.txt", 'r') as t: title = t.read().strip() or dirname
+    return render_template("article.html", dirname=dirname, nb_html=nb_html)
 
 # @app.route('/particles')
 # def particles():
