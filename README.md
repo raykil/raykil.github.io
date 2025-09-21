@@ -1,5 +1,5 @@
 # Portfolio Website
-The published website is `raykil.github.io`.
+The published website is `https://raykil.github.io`.
 
 ## Webpage Development
 For development, run `app.py` and use the localhost server `http://127.0.0.1:5000/` for quick iterations.
