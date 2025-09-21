@@ -1,0 +1,51 @@
+p {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+h1 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200;
+    font-size: 55px;
+    line-height: 1.2;
+    color: #353535;
+}
+
+body {
+    background-color: #c0c0c0;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    margin: -8px -8px 0 -8px;
+    background: #0c2340;
+    align-items: center;
+    height: 13vh;
+    overflow: hidden;
+}
+
+.return-home-btn {
+    display: flex;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: rgb(39, 39, 39);
+    font-size: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+    text-decoration: none;
+}
+
+.return-home-btn:hover {
+    color: #87cefa;
+}
+
+.return-home-btn:active {
+    color: #4682b4;
+    transform: translateY(1px);
+}
