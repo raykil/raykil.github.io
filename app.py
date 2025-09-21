@@ -55,7 +55,7 @@ def get_articles_info(dirname):
 
     # Pass in title in article page.
     with open(f"{scriptPath}/articles/{dirname}/title.txt", 'r') as t: title = t.read().strip() or dirname
-    return render_template("article.html", slug=dirname, nb_html=nb_html, title=title)
+    return render_template("article.html", dirname=dirname, nb_html=nb_html, title=title)
 
 # @app.route('/particles')
 # def particles():
