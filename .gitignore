@@ -1,2 +1,6 @@
 *archive/
-*build/
+build/
+templates/
+particles/
+*cache*/
+articles/
