@@ -12,19 +12,20 @@ The new version does not list the articles using database.
 import os, nbformat
 from nbconvert import HTMLExporter
 from traitlets.config import Config
-from flask import Flask, render_template, send_from_directory, Response
+from flask import Flask, render_template # , send_from_directory, Response
 
 app = Flask(__name__)
 scriptPath = os.path.dirname(os.path.abspath(__file__)) # /Users/raymondkil/Desktop/raykil.github.io
 
 def ipynb2html(ipynb_path):
+    # Let's move this to another script.
     Config().HTMLExporter.embed_images = True
     nb = nbformat.read(ipynb_path, as_version=4)
     exporter = HTMLExporter(config=Config(), template_name="lab")
     body = exporter.from_notebook_node(nb)[0]
     return body
 
-@app.route('/')
+@app.route('/') # run the attached function when the URL in the arg is requested.
 def index():
     # TODO: Let's animate some cool methematical animation at homepage.
     # Mandelbrot set
@@ -33,18 +34,18 @@ def index():
     # See animation_idea.txt for more.
     return render_template('index.html')
 
-@app.route('/articles')
+@app.route('/articles/')
 def articles():
-    slugs = [n for n in os.listdir(f"{scriptPath}/articles") if '.' not in n] # Ex) special_relativity
-    articles_info = []
-    for slug in slugs:
-        with open(f"{scriptPath}/articles/{slug}/title.txt", 'r') as t: title = t.read().strip() or slug
-        articles_info.append({'slug': slug, 'title': title})
-    return render_template('articles.html', articles=articles_info)
+    # Manually enter a dict item for each article I want to publish.
+    articles_to_show = {
+        "Brownian_motion": "How to Predict Stock Prices Using Random Walks"
+    }
+    return render_template('articles.html', articles=articles_to_show)
 
-@app.route('/articles/<slug>') # Ex) /articles/entropy
-def get_articles_info(slug): # slug is a string, the name of article directory. Ex) special_relativity
-    article_dir = f"{scriptPath}/articles/{slug}"
+
+@app.route('/articles/<dirname>/')
+def get_articles_info(dirname):
+    article_dir = f"{scriptPath}/articles/{dirname}"
 
     # Finding ipynb notebooks
     # TODO: change this so that I can display all ipynbs. Ipynbs should be named as 01_hello.ipynb, 02_my.ipynb, ... so that the order is manually specified.
@@ -53,12 +54,12 @@ def get_articles_info(slug): # slug is a string, the name of article directory. 
     nb_html = ipynb2html(ipynb_path)
 
     # Pass in title in article page.
-    with open(f"{scriptPath}/articles/{slug}/title.txt", 'r') as t: title = t.read().strip() or slug
-    return render_template("article.html", slug=slug, nb_html=nb_html, title=title)
+    with open(f"{scriptPath}/articles/{dirname}/title.txt", 'r') as t: title = t.read().strip() or dirname
+    return render_template("article.html", slug=dirname, nb_html=nb_html, title=title)
 
-@app.route('/particles')
-def particles():
-    return render_template('particles.html')
+# @app.route('/particles')
+# def particles():
+#     return render_template('particles.html')
 
 
 if __name__ == "__main__":
