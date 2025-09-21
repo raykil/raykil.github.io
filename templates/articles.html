@@ -10,12 +10,11 @@
 
 <div class="article-list">
     <ul>
-        {% for article in articles%}
-         <li><a href="{{ url_for('get_articles_info', slug=article.slug) }}">{{ article.title }}</a></li>
+        {% for dirname, title in articles.items()%}
+         <li><a href="{{ url_for('get_articles_info', dirname=dirname) }}">{{ title }}</a></li>
         {% endfor %}
     </ul>
 </div>
-
 
 <a href="{{ url_for('index') }}" class="return-home-btn">Return to Home</a>
 {% endblock %}

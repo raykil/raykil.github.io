@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
 {% endblock %}
 
-{% block title %}Raymond Kil - {{ slug }}{% endblock %}
+{% block title %}Raymond Kil - {{ dirname }}{% endblock %}
 
 {% block body %}
   <h1>{{title}}</h1>
@@ -16,7 +16,7 @@
         <li><a href="#section1">Introduction</a></li>
         <li><a href="#section2">Main Topic</a></li>
         <li><a href="#section3">Details</a></li>
-        <li><a href="#section4">Conclusion</a></li>
+        <li><a href="#section4">Conclusion</a><return render_template("article.html", dirname=dirname, nb_html=nb_html, title=title)/li>
       </ul>
     </nav>
     <article class="notebook-container">
