@@ -11,16 +11,11 @@
   <h1>Placeholder</h1>
 
   <div class="article-layout">
-    <nav class="contents-nav">
-      <ul>
-        <li><a href="#section1">Introduction</a></li>
-        <li><a href="#section2">Main Topic</a></li>
-        <li><a href="#section3">Details</a></li>
-      </ul>
-    </nav>
+    <nav class="contents-nav"></nav>
     <article class="notebook-container">
       {{ nb_html|safe }}
     </article>
   </div>
   <a href="{{ url_for('articles') }}" class="return-home-btn">Return to Articles</a>
+  <script src="{{ url_for('static', filename='js/article_toc.js') }}"></script>
 {% endblock %}
