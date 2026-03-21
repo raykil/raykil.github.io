@@ -1,2 +1,7 @@
 *archive
 build/*
+
+# Ignore all article subdirectories except those published in articles/index.json
+articles/*
+!articles/index.json
+!articles/Brownian_motion

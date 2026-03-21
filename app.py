@@ -9,7 +9,8 @@ How to view webpage:
 The new version does not list the articles using database.
 """
 
-import os, nbformat
+import os, nbformat, json
+from pathlib import Path
 from nbconvert import HTMLExporter
 from traitlets.config import Config
 from flask import Flask, render_template # , send_from_directory, Response
@@ -34,13 +35,29 @@ def index():
     # See animation_idea.txt for more.
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+def load_summaries() -> dict:
+    p = Path(scriptPath) / "static" / "summaries.json"
+    if p.exists():
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+def load_articles() -> dict:
+    p = Path(scriptPath) / "articles" / "index.json"
+    if p.exists():
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
 @app.route('/articles/')
 def articles():
-    # Manually enter a dict item for each article I want to publish.
-    articles_to_show = {
-        "Brownian_motion": "How to Predict Stock Prices Using Random Walks"
-    }
-    return render_template('articles.html', articles=articles_to_show)
+    articles_to_show = load_articles()
+    summaries = load_summaries()
+    return render_template('articles.html', articles=articles_to_show, summaries=summaries)
 
 
 @app.route('/articles/<dirname>/')
