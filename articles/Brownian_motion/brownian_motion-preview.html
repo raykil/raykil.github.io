@@ -1,33 +1,154 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.9.36">
 
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
-<meta name="dcterms.date" content="2025-03-20">
-<meta name="description" content="Using repeated random walks and the Central Limit Theorem to extract meaningful statistical predictions from seemingly random stock price fluctuations.">
-
-<title>How to Predict Stock Prices Using Random Walks – raykil</title>
-<style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
-code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-ul.task-list{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-  width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
-  vertical-align: middle;
-}
-</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
+    <title>How to Predict Stock Prices Using Random Walks – raykil</title>
+    <style>
+      /* Default styles provided by pandoc.
+      ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+      */
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = '/';
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -44,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-f1ac76f7d88f89d98b3828f1757666ac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
+     <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -70,47 +191,21 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<style>html{ scroll-behavior: smooth; }</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+}</script>  <style>html{ scroll-behavior: smooth; }</style>  <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
+      </head>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <body class="floating nav-fixed quarto-notebook quarto-light">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link"><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> How to Predict Stock Prices Using Random Walks</h6>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+            <a href="../../articles/Brownian_motion/brownian_motion.ipynb" class="btn btn-primary quarto-download-embed" download="brownian_motion.ipynb">Download Notebook</a>
+          </div>
 
-</head>
-
-<body class="floating nav-fixed quarto-light">
-
-<div id="quarto-search-results"></div>
+     <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
@@ -151,110 +246,167 @@ window.Quarto = {
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#how-to-predict-stock-prices-using-random-walks" id="toc-how-to-predict-stock-prices-using-random-walks" class="nav-link active" data-scroll-target="#how-to-predict-stock-prices-using-random-walks">How to Predict Stock Prices Using Random Walks</a>
-  <ul class="collapse">
-  <li><a href="#repeated-time-evolution-of-stock-prices" id="toc-repeated-time-evolution-of-stock-prices" class="nav-link" data-scroll-target="#repeated-time-evolution-of-stock-prices">Repeated time evolution of stock prices</a></li>
+  <li><a href="#repeated-time-evolution-of-stock-prices" id="toc-repeated-time-evolution-of-stock-prices" class="nav-link active" data-scroll-target="#repeated-time-evolution-of-stock-prices">Repeated time evolution of stock prices</a></li>
   <li><a href="#analyzing-collective-behavior" id="toc-analyzing-collective-behavior" class="nav-link" data-scroll-target="#analyzing-collective-behavior">Analyzing collective behavior</a></li>
-  <li><a href="#the-heat-equation" id="toc-the-heat-equation" class="nav-link" data-scroll-target="#the-heat-equation">The Heat Equation</a>
-  <ul class="collapse">
+  <li><a href="#the-heat-equation" id="toc-the-heat-equation" class="nav-link" data-scroll-target="#the-heat-equation">The Heat Equation</a></li>
   <li><a href="#derivation" id="toc-derivation" class="nav-link" data-scroll-target="#derivation">Derivation</a></li>
-  </ul></li>
-  </ul></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="brownian_motion-preview.html"><i class="bi bi-journal-code"></i>How to Predict Stock Prices Using Random Walks</a></li></ul></div></nav>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
+<main class="content" id="quarto-document-content">      <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">How to Predict Stock Prices Using Random Walks</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">physics</div>
-    <div class="quarto-category">statistics</div>
-    <div class="quarto-category">finance</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    Using repeated random walks and the Central Limit Theorem to extract meaningful statistical predictions from seemingly random stock price fluctuations.
-  </div>
 </div>
+
 
 
 <div class="quarto-title-meta">
 
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 20, 2025</p>
-    </div>
-  </div>
   
     
   </div>
   
 
 
-</header>
-
-
-<section id="how-to-predict-stock-prices-using-random-walks" class="level1 quarto-embed-nb-cell">
-<h1>How to Predict Stock Prices Using Random Walks</h1>
+</header>     <div id="ca18b4b6" class="cell markdown">
 <p>The price of a stock depends on very many factors in reality that we perceive it to be effectively random. This fact makes a random walk a pretty good approximation to the price fluctuation of a stock over time. In this article, we will take a first shot of predicting the seemingly random stock price. Let’s assume that at every second, the stock price has a 50% chance that it increases by $0.1, and a 50% chance that it decreases by $0.1. Whenever we try to make meaningful predictions from random events, we should appeal to statistics. That is, we must repeat the time evolution of the stock price multiple times and see if we can extract some meaningful information from it.</p>
+</div>
+<div id="728bf549" class="cell markdown">
 <section id="repeated-time-evolution-of-stock-prices" class="level2">
 <h2 class="anchored" data-anchor-id="repeated-time-evolution-of-stock-prices">Repeated time evolution of stock prices</h2>
 <p>Let’s quantify some values. We will observe the time evolution of a stock over 1000 seconds (~17 minutes). At <span class="math inline">\(t=0\)</span>, let’s assume that the stock price is $100. Finally, let’s repreat the experiment 5000 times.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [81]:</pre></div><div id="eb9dcc38" class="cell" data-execution_count="81">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ti, tf  <span class="op">=</span> <span class="dv">0</span>, <span class="dv">1000</span> <span class="co"># We are observing the time evolution over 1000 seconds.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>price_i <span class="op">=</span> <span class="dv">100</span>     <span class="co"># We assume the initial price to be $100.</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nTrials <span class="op">=</span> <span class="dv">5000</span>    <span class="co"># We are repeating the experiment 5000 times.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div id="795679a1" class="cell markdown">
 <p>Let’s also define a variable named <code>RESULTS</code> that stores the stock prices at every time step for all the trials. It will be a 2D array where the outer axis represents the trial index and the inner axis represents the stock price at each time for a trial. The time increments will be stored in the variable <code>ts</code>.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [82]:</pre></div><div id="9bce75f0" class="cell" data-execution_count="82">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>RESULTS <span class="op">=</span> np.zeros((nTrials, tf))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ts <span class="op">=</span> np.arange(ti, tf, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div id="ba1a2b6e" class="cell markdown">
 <p>Now we need a function that does the random walk for us. We can define a function where, given the number of steps and the initial price, it randomly adds or subtracts 0.01 from the current price.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [83]:</pre></div><div id="60a46387" class="cell" data-execution_count="83">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> doRandomWalk(nSteps, initial_price):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    prices <span class="op">=</span> np.zeros(nSteps)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    current_price <span class="op">=</span> initial_price</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(nSteps):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        prices[step] <span class="op">=</span> current_price</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        current_price <span class="op">+=</span> np.random.choice([<span class="fl">0.1</span>, <span class="op">-</span><span class="fl">0.1</span>])</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> prices</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div id="843cf7fc" class="cell markdown">
 <p>Using the ingredients above, we can now repeat the random walks.</p>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [84]:</pre></div><div id="78ec80f5" class="cell" data-execution_count="84">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trial <span class="kw">in</span> <span class="bu">range</span>(nTrials):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    prices <span class="op">=</span> doRandomWalk(tf, price_i)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    RESULTS[trial,:] <span class="op">=</span> prices</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div id="5e43950f" class="cell markdown">
 <p>It’s as simple as this! Let’s take a look at one of those trials and get a sense of what the result looks like. I will choose, say, 318th trial and see how the prices changed for that trial. Since the prices are reported over 1000 seconds and 1000 entries is a bit too long, I will print the price every 100 seconds.</p>
-<div id="f2d655f0" class="cell" data-execution_count="85">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [85]:</pre></div><div id="f2d655f0" class="cell" data-execution_count="85">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>example_trial <span class="op">=</span> [<span class="bu">round</span>(<span class="bu">float</span>(p),<span class="dv">2</span>) <span class="cf">for</span> p <span class="kw">in</span> RESULTS[<span class="dv">318</span>,::<span class="dv">100</span>]]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(example_trial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[100.0, 100.4, 99.8, 100.8, 103.2, 101.8, 103.2, 102.4, 102.6, 102.8]</code></pre>
 </div>
-</div>
+</div></div>
+<div id="dbbf87c4" class="cell markdown">
 <p>The price starts at $100 as expected, and it seems to randomly walk back and forth as time evolves. To grasp a better picture, let’s try plotting some of the trials over time.</p>
-<div id="2ede0acb" class="cell" data-execution_count="86">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [86]:</pre></div><div id="2ede0acb" class="cell" data-execution_count="86">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nTrials_to_draw <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>price_window <span class="op">=</span> [<span class="dv">95</span>,<span class="dv">105</span>]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> prices <span class="kw">in</span> RESULTS[::<span class="bu">int</span>(nTrials<span class="op">/</span>nTrials_to_draw)]:</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    plt.plot(ts, prices, lw<span class="op">=</span><span class="dv">1</span>) <span class="co"># prices are floats</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"1D Brownian Motion (Wiener Process)"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Time"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Stock price"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.ylim(price_window)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.axhline(y<span class="op">=</span><span class="dv">100</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'original price'</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div>
+<div class="">
 <figure class="figure">
-<p><img src="index_files/figure-html/brownian_motion-cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p class=""><img src="brownian_motion_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
-</div>
-</section>
+</div></div>
+<div id="8604e82b" class="cell markdown">
 <section id="analyzing-collective-behavior" class="level2">
 <h2 class="anchored" data-anchor-id="analyzing-collective-behavior">Analyzing collective behavior</h2>
 <p>The purpose of the above plot was to simply visualize that we had successfully simulated the stock prices as random walks. The real fun starts now. For each time step, let’s count how many trials lie between, say, $99 and $100, how many lie between $100 and $101, and so on. Based on the plot above, I think it’s appropriate to count the trials within the range <span class="math inline">\(100\pm 15\)</span> dollars. For visual purposes, I will only show the price distribution every 100 steps.</p>
-<div id="7767a0e2" class="cell" data-execution_count="36">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [36]:</pre></div><div id="7767a0e2" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>TimeStamps <span class="op">=</span> np.arange(<span class="dv">100</span>, tf<span class="op">+</span><span class="dv">1</span>, <span class="dv">100</span>)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">25</span>,<span class="dv">8</span>), gridspec_kw<span class="op">=</span>{<span class="st">"wspace"</span>: <span class="fl">0.3</span>, <span class="st">"hspace"</span>: <span class="fl">0.3</span>})</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="ss">f"Time Evolution of Stock Prices of </span><span class="sc">{</span>nTrials<span class="sc">}</span><span class="ss"> Trials"</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(TimeStamps):</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>axes[i]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    price_dist <span class="op">=</span> RESULTS[:,t]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    ax.grid(linestyle<span class="op">=</span><span class="st">'-.'</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    ax.hist(price_dist, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span>np.arange(<span class="dv">85</span>,<span class="dv">116</span>,<span class="dv">1</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"TimeStamp=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim([<span class="dv">0</span>,<span class="fl">0.4</span>])</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Stock price"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Normalized Trial Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div>
+<div class="">
 <figure class="figure">
-<p><img src="index_files/figure-html/brownian_motion-cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p class=""><img src="brownian_motion_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
-</div>
+</div></div>
+<div id="99037028" class="cell markdown">
 <p>This is fascinating! The distribution tells us that the prices tend to spread out, or <em>diffuse</em>, as time evolves, with a mean centered around the initial price of $100. In physics, we model such diffusive evolution with a differential equation called the <strong>Heat Equation</strong>, where the name is motivated by how it predicts the diffusion of heat of an object over time.</p>
-</section>
+</div>
+<div id="8286c745" class="cell markdown">
 <section id="the-heat-equation" class="level2">
 <h2 class="anchored" data-anchor-id="the-heat-equation">The Heat Equation</h2>
+</section>
+</div>
+<div id="b1f3ebbc" class="cell markdown">
 <p>The heat equation is given by <span class="math display">\[
 \frac{du}{dt} = \alpha\frac{d^2u}{dx^2}.
 \]</span></p>
+</div>
+<div id="d9f6051a" class="cell markdown">
 <p>Although the heat equation is a second-order, parabolic partial differential equation, it is one of the few equations that has an analytic solution: <span class="math display">\[
 u(x,t) = \frac{1}{\sqrt{4\pi\alpha t}}\exp\left[-\frac{(x-x_i)^2}{4\alpha t}\right],
 \]</span> which is precisely a time evolving Gaussian!</p>
+</div>
+<div id="4152ba65" class="cell markdown">
 <section id="derivation" class="level3">
 <h3 class="anchored" data-anchor-id="derivation">Derivation</h3>
+</section>
+</div>
+<div id="5b1801bb" class="cell markdown">
 <p>We first move to spatial Fourier space so that we can deal with a simple first-order linear ODE in time. Letting <span class="math inline">\(\hat{u}(k,t) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}u(x,t)e^{-ikx}\,dx\)</span>, we have <span class="math display">\[
 \frac{d}{dt}\hat{u}(k,t) = -\alpha k^2\hat{u}(k,t).
 \]</span> We immediately see a general solution for this equation: <span class="math display">\[
@@ -280,24 +432,46 @@ g(x,t) &amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{ikx}e^{-\alpha k^2 
     u(x,t) &amp;= f * g = \frac{1}{\sqrt{4\pi\alpha t}}\int_{-\infty}^{\infty}\delta(x'-x+100)\exp\left[-\frac{x'^2}{4\alpha t}\right]\,dx' \\
     &amp;= \frac{1}{\sqrt{4\pi\alpha t}}\exp\left[-\frac{(x-100)^2}{4\alpha t}\right]
 \end{align*}\]</span></p>
-<div id="668e6a34" class="cell" data-execution_count="80">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [80]:</pre></div><div id="668e6a34" class="cell" data-execution_count="80">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Gaussian(x, t, alpha):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">/</span>np.sqrt(<span class="dv">4</span><span class="op">*</span>np.pi<span class="op">*</span>alpha<span class="op">*</span>t) <span class="op">*</span> np.exp(<span class="op">-</span>(x<span class="op">-</span><span class="dv">100</span>)<span class="op">**</span><span class="dv">2</span><span class="op">/</span>(<span class="dv">4</span><span class="op">*</span>alpha<span class="op">*</span>t))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> np.linspace(<span class="dv">85</span>, <span class="dv">115</span>, <span class="dv">100</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>FITS <span class="op">=</span> np.zeros((<span class="bu">len</span>(TimeStamps), <span class="bu">len</span>(xs)))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(TimeStamps):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    fit <span class="op">=</span> Gaussian(xs, t, <span class="fl">0.0055</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    FITS[i,:] <span class="op">=</span> fit</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>TimeStamps <span class="op">=</span> np.arange(<span class="dv">100</span>, tf<span class="op">+</span><span class="dv">1</span>, <span class="dv">100</span>)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">5</span>, figsize<span class="op">=</span>(<span class="dv">25</span>,<span class="dv">8</span>), gridspec_kw<span class="op">=</span>{<span class="st">"wspace"</span>: <span class="fl">0.3</span>, <span class="st">"hspace"</span>: <span class="fl">0.3</span>})</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="ss">f"Time Evolution of Stock Prices of </span><span class="sc">{</span>nTrials<span class="sc">}</span><span class="ss"> Trials"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(TimeStamps):</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>axes[i]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    price_dist <span class="op">=</span> RESULTS[:,t]</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    ax.grid(linestyle<span class="op">=</span><span class="st">'-.'</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    ax.hist(price_dist, density<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span>np.arange(<span class="dv">85</span>,<span class="dv">116</span>,<span class="dv">1</span>))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ax.plot(xs, FITS[i])</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"TimeStamp=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim([<span class="dv">0</span>,<span class="fl">0.4</span>])</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Stock price"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Normalized Trial Count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<div>
+<div class="">
 <figure class="figure">
-<p><img src="index_files/figure-html/brownian_motion-cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p class=""><img src="brownian_motion_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
-</div>
+</div></div>
+<div id="ccfb22b2" class="cell markdown">
 <p>TODO: - alpha is set to 0.0055 and it fits. Analytically derive the volatility and find the optimal alpha value.</p>
-</section>
-</section>
-<a class="quarto-notebook-link" id="nblink-1" href="brownian_motion-preview.html#ca18b4b6">Source: How to Predict Stock Prices Using Random Walks</a></section>
+</div>
 
 
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+     </main> <!-- /main -->  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -696,8 +870,7 @@ g(x,t) &amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{ikx}e^{-\alpha k^2 
       }
     }
   });
-  </script>
-</div> <!-- /content -->
+  </script>  </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
@@ -726,10 +899,7 @@ g(x,t) &amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{ikx}e^{-\alpha k^2 
 </ul>
     </div>
   </div>
-</footer>
-
-
-
-
+</footer> 
+  
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

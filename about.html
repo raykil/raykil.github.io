@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-03-20">
-<meta name="description" content="Using repeated random walks and the Central Limit Theorem to extract meaningful statistical predictions from seemingly random stock price fluctuations.">
 
-<title>How to Predict Stock Prices Using Random Walks – raykil</title>
+<title>about – raykil</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -28,22 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-de4ed2ca5c64e89fb6f72ef5749d0c55.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f1ac76f7d88f89d98b3828f1757666ac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-de4ed2ca5c64e89fb6f72ef5749d0c55.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f1ac76f7d88f89d98b3828f1757666ac.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,46 +74,17 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
-<body class="floating nav-fixed quarto-light">
+<body class="floating nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">raykil</span>
     </a>
   </div>
@@ -125,15 +94,15 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
+    <a class="nav-link active" href="./about.html" aria-current="page"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../articles/index.html"> 
+    <a class="nav-link" href="./articles/index.html"> 
 <span class="menu-text">Articles</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../books.html"> 
+    <a class="nav-link" href="./books.html"> 
 <span class="menu-text">Books</span></a>
   </li>  
 </ul>
@@ -147,152 +116,222 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Contents</h2>
-   
-  <ul>
-  <li><a href="#how-to-predict-stock-prices-using-random-walks" id="toc-how-to-predict-stock-prices-using-random-walks" class="nav-link active" data-scroll-target="#how-to-predict-stock-prices-using-random-walks">How to Predict Stock Prices Using Random Walks</a>
-  <ul class="collapse">
-  <li><a href="#repeated-time-evolution-of-stock-prices" id="toc-repeated-time-evolution-of-stock-prices" class="nav-link" data-scroll-target="#repeated-time-evolution-of-stock-prices">Repeated time evolution of stock prices</a></li>
-  <li><a href="#analyzing-collective-behavior" id="toc-analyzing-collective-behavior" class="nav-link" data-scroll-target="#analyzing-collective-behavior">Analyzing collective behavior</a></li>
-  <li><a href="#the-heat-equation" id="toc-the-heat-equation" class="nav-link" data-scroll-target="#the-heat-equation">The Heat Equation</a>
-  <ul class="collapse">
-  <li><a href="#derivation" id="toc-derivation" class="nav-link" data-scroll-target="#derivation">Derivation</a></li>
-  </ul></li>
-  </ul></li>
-  </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="brownian_motion-preview.html"><i class="bi bi-journal-code"></i>How to Predict Stock Prices Using Random Walks</a></li></ul></div></nav>
+    
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">How to Predict Stock Prices Using Random Walks</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">physics</div>
-    <div class="quarto-category">statistics</div>
-    <div class="quarto-category">finance</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    Using repeated random walks and the Central Limit Theorem to extract meaningful statistical predictions from seemingly random stock price fluctuations.
-  </div>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7">Raymond <em>Jungmin</em> Kil</h1></header>
 
 
-<div class="quarto-title-meta">
 
+
+<main class="about-page">
+
+  <header class="about-header">
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 20, 2025</p>
+    <p class="about-affiliation">Ph.D. in High Energy Physics Experiment · University of Notre Dame</p>
+    <div class="about-contacts-row">
+      <div class="about-contacts">
+        <a href="mailto:jungminkil0318@gmail.com">jungminkil0318@gmail.com</a>
+        <span>·</span>
+        <a href="tel:+18578691539">(857) 869-1539</a>
+        <span>·</span>
+        <a href="https://www.linkedin.com/in/jungminkil/" target="_blank" rel="noopener">LinkedIn</a>
+        <span>·</span>
+        <a href="https://github.com/raykil" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <a class="resume-btn" href="static/raykil_resume.pdf" target="_blank" rel="noopener">PDF version</a>
     </div>
-  </div>
-  
-    
-  </div>
-  
+  </header>
 
+  <section>
+    <h2 class="section-title anchored">Education</h2>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">University of Notre Dame</span>
+        <span class="entry-date">Aug 2024 – Expected Spring 2029</span>
+      </div>
+      <div class="entry-sub">Ph.D. in High Energy Physics Experiment · Notre Dame, IN, USA</div>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Boston University</span>
+        <span class="entry-date">May 2023</span>
+      </div>
+      <div class="entry-sub">B.A./M.A. in Physics (Magna Cum Laude) · Boston, MA, USA</div>
+    </div>
+  </section>
 
-</header>
+  <section>
+    <h2 class="section-title anchored">Research Experience</h2>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Lepton Flavor Violation Decays of the Higgs</span>
+        <span class="entry-date">Summer 2024 – Expected Spring 2028</span>
+      </div>
+      <div class="entry-sub">University of Notre Dame</div>
+      <ul>
+        <li>Searched for Beyond Standard Model decays of the Higgs into dimuon states of different flavors (H → eτ/µτ).</li>
+        <li>Analyzed petabyte-scale datasets from the LHC at CERN and developed visualization tools to identify subtle signals.</li>
+        <li>Utilized Boosted Decision Trees to optimize event classification with improved sensitivity to rare physics processes.</li>
+        <li>Implemented statistical/Monte Carlo/data-driven techniques to accurately model event statistics from the LHC.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Phase-2 Upgrade of the Electromagnetic Calorimeter</span>
+        <span class="entry-date">Summer 2024 – Expected Spring 2028</span>
+      </div>
+      <div class="entry-sub">University of Notre Dame</div>
+      <ul>
+        <li>Contributed to the ECAL upgrade for detector sustainability and performance enhancement at High-Luminosity LHC.</li>
+        <li>Designed FPGA logic for 160 MHz analog-to-digital signal processing with High Level Synthesis from C++ to VHDL.</li>
+        <li>Built C++/SQL/RPC-based application for register configuration of scintillating crystals at 40 MHz data-taking condition.</li>
+        <li>Developed and tested Low Power GigaBit Transceiver (lpGBT) ASICs for high temperature/radiation environments.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">High Level Trigger for Vector Boson Fusion Process</span>
+        <span class="entry-date">Summer 2023 – Fall 2023</span>
+      </div>
+      <div class="entry-sub">Boston University</div>
+      <ul>
+        <li>Evaluated the HLT efficiency at CMS for VBF processes and designed new event selection criteria aligned with the data parking strategy, increasing acceptance into regions of phase space previously excluded by bandwidth limits.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Soft Unclustered Energy Pattern (SUEP)</span>
+        <span class="entry-date">Fall 2021 – Spring 2023</span>
+      </div>
+      <div class="entry-sub">Boston University</div>
+      <ul>
+        <li>Searched for exotic decay mode of the Higgs Boson involving Soft Unclustered Energy Pattern (SUEP) signatures.</li>
+        <li>Applied data-driven method to improve reliability in background estimation beyond simulation-based predictions.</li>
+        <li>Developed novel particle clustering algorithm that exploits jet substructure for signal sensitivity enhancement.</li>
+      </ul>
+    </div>
+  </section>
 
+  <section>
+    <h2 class="section-title anchored">Academic &amp; Professional Experience</h2>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Teaching Assistant</span>
+        <span class="entry-date">Fall 2024 – Spring 2025</span>
+      </div>
+      <div class="entry-sub">University of Notre Dame</div>
+      <ul>
+        <li>Served as assignment grader and teaching assistant for graduate-level electrodynamics.</li>
+        <li>Held office hours for undergraduate-level classical mechanics and thermodynamics.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">ECAL Operations Coordinator</span>
+        <span class="entry-date">June 2024 – August 2024</span>
+      </div>
+      <div class="entry-sub">CERN, CMS</div>
+      <ul>
+        <li>Ensured uninterrupted CMS data-taking by monitoring ECAL detector health and documenting detector anomalies.</li>
+        <li>Coordinated daily run meetings, reporting and managing documentation from all detector parts for future data correction.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Combat Engineer</span>
+        <span class="entry-date">Fall 2019 – Spring 2021</span>
+      </div>
+      <div class="entry-sub">Republic of Korea Army</div>
+      <ul>
+        <li>Promoted the demilitarization of South Korean territory at the vicinity of DMZ by removing unexploded ordnance.</li>
+      </ul>
+    </div>
+  </section>
 
-<section id="how-to-predict-stock-prices-using-random-walks" class="level1 quarto-embed-nb-cell">
-<h1>How to Predict Stock Prices Using Random Walks</h1>
-<p>The price of a stock depends on very many factors in reality that we perceive it to be effectively random. This fact makes a random walk a pretty good approximation to the price fluctuation of a stock over time. In this article, we will take a first shot of predicting the seemingly random stock price. Let’s assume that at every second, the stock price has a 50% chance that it increases by $0.1, and a 50% chance that it decreases by $0.1. Whenever we try to make meaningful predictions from random events, we should appeal to statistics. That is, we must repeat the time evolution of the stock price multiple times and see if we can extract some meaningful information from it.</p>
-<section id="repeated-time-evolution-of-stock-prices" class="level2">
-<h2 class="anchored" data-anchor-id="repeated-time-evolution-of-stock-prices">Repeated time evolution of stock prices</h2>
-<p>Let’s quantify some values. We will observe the time evolution of a stock over 1000 seconds (~17 minutes). At <span class="math inline">\(t=0\)</span>, let’s assume that the stock price is $100. Finally, let’s repreat the experiment 5000 times.</p>
-<p>Let’s also define a variable named <code>RESULTS</code> that stores the stock prices at every time step for all the trials. It will be a 2D array where the outer axis represents the trial index and the inner axis represents the stock price at each time for a trial. The time increments will be stored in the variable <code>ts</code>.</p>
-<p>Now we need a function that does the random walk for us. We can define a function where, given the number of steps and the initial price, it randomly adds or subtracts 0.01 from the current price.</p>
-<p>Using the ingredients above, we can now repeat the random walks.</p>
-<p>It’s as simple as this! Let’s take a look at one of those trials and get a sense of what the result looks like. I will choose, say, 318th trial and see how the prices changed for that trial. Since the prices are reported over 1000 seconds and 1000 entries is a bit too long, I will print the price every 100 seconds.</p>
-<div id="f2d655f0" class="cell" data-execution_count="85">
-<div class="cell-output cell-output-stdout">
-<pre><code>[100.0, 100.4, 99.8, 100.8, 103.2, 101.8, 103.2, 102.4, 102.6, 102.8]</code></pre>
-</div>
-</div>
-<p>The price starts at $100 as expected, and it seems to randomly walk back and forth as time evolves. To grasp a better picture, let’s try plotting some of the trials over time.</p>
-<div id="2ede0acb" class="cell" data-execution_count="86">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/brownian_motion-cell-7-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="analyzing-collective-behavior" class="level2">
-<h2 class="anchored" data-anchor-id="analyzing-collective-behavior">Analyzing collective behavior</h2>
-<p>The purpose of the above plot was to simply visualize that we had successfully simulated the stock prices as random walks. The real fun starts now. For each time step, let’s count how many trials lie between, say, $99 and $100, how many lie between $100 and $101, and so on. Based on the plot above, I think it’s appropriate to count the trials within the range <span class="math inline">\(100\pm 15\)</span> dollars. For visual purposes, I will only show the price distribution every 100 steps.</p>
-<div id="7767a0e2" class="cell" data-execution_count="36">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/brownian_motion-cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>This is fascinating! The distribution tells us that the prices tend to spread out, or <em>diffuse</em>, as time evolves, with a mean centered around the initial price of $100. In physics, we model such diffusive evolution with a differential equation called the <strong>Heat Equation</strong>, where the name is motivated by how it predicts the diffusion of heat of an object over time.</p>
-</section>
-<section id="the-heat-equation" class="level2">
-<h2 class="anchored" data-anchor-id="the-heat-equation">The Heat Equation</h2>
-<p>The heat equation is given by <span class="math display">\[
-\frac{du}{dt} = \alpha\frac{d^2u}{dx^2}.
-\]</span></p>
-<p>Although the heat equation is a second-order, parabolic partial differential equation, it is one of the few equations that has an analytic solution: <span class="math display">\[
-u(x,t) = \frac{1}{\sqrt{4\pi\alpha t}}\exp\left[-\frac{(x-x_i)^2}{4\alpha t}\right],
-\]</span> which is precisely a time evolving Gaussian!</p>
-<section id="derivation" class="level3">
-<h3 class="anchored" data-anchor-id="derivation">Derivation</h3>
-<p>We first move to spatial Fourier space so that we can deal with a simple first-order linear ODE in time. Letting <span class="math inline">\(\hat{u}(k,t) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}u(x,t)e^{-ikx}\,dx\)</span>, we have <span class="math display">\[
-\frac{d}{dt}\hat{u}(k,t) = -\alpha k^2\hat{u}(k,t).
-\]</span> We immediately see a general solution for this equation: <span class="math display">\[
-\hat{u}(k,t) = e^{-\alpha k^2 t}\hat{u}(k,0).
-\]</span></p>
-<p>Notice how the solution in Fourier space is a product of two functions: i) <span class="math inline">\(\hat{f}(k,0) \equiv \hat{u}(k,t)\)</span> which is the initial condition in Fourier space, and ii) <span class="math inline">\(\hat{g} \equiv e^{-\alpha k^2 t}\)</span>, which is sometimes called the heat kernel. We can exploit the convolution theorem to represent this solution in physical space, which states that a product of two functions <span class="math inline">\(\hat{f}\)</span> and <span class="math inline">\(\hat{g}\)</span> in Fourier space is a convolution of the inverse Fourier transformed version of the functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> in the physical space. That is, <span class="math inline">\(u(x,t) = f*g\)</span>. Simply, <span class="math inline">\(\hat{f}(k,0) = f(x,0) = \delta(x-100)\)</span>, the initial condition. It is a Dirac delta function centered at $100. Now let’s take the inverse Fourier transform of <span class="math inline">\(\hat{g}\)</span>.</p>
-<p><span class="math display">\[\begin{align*}
-g(x,t) &amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{ikx}e^{-\alpha k^2 t}\,dk \\
-  &amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\exp\left[-\alpha t\left(k-\frac{ix}{2\alpha t}\right)^2-\frac{x^2}{4\alpha t}\right]\,dk \\
-  &amp;= \frac{e^{-x^2/4\alpha t}}{\sqrt{2\pi}}\int_{-\infty}^{\infty}\exp\left[-\alpha t\left(k-\frac{ix}{2\alpha t}\right)^2\right]\,dk \\
-  &amp;= \frac{e^{-x^2/4\alpha t}}{\sqrt{2\pi}}\sqrt{\frac{\pi}{\alpha t}} = \frac{1}{\sqrt{4\pi\alpha t}}e^{-x^2/4\alpha t},
-\end{align*}\]</span></p>
-<p>where I completed the square from the first to second line <span class="math display">\[\begin{align*}
-    -\alpha k^2 t + ikx &amp;= -\alpha t\left(k^2-\frac{ikx}{\alpha t}\right) \\
-                        &amp;= -\alpha t(k^2-2bk+b^2)+\alpha t b^2 \text{ , where } b\equiv\frac{ix}{2\alpha t} \\
-                        &amp;= -\alpha t\left(k-\frac{ix}{2\alpha t}\right)^2-\frac{x^2}{4\alpha t},
-\end{align*}\]</span></p>
-<p>and I took the Gaussian integral from the third line to fourth <span class="math display">\[\begin{align*}
-    \int_{-\infty}^{\infty}\exp\left[-\alpha t\left(k-\frac{ix}{2\alpha t}\right)^2\right]\,dk &amp;= \int_{-\infty}^{\infty} e^{-a(x+b)^2}\,dx \\
-    &amp;= \sqrt{\frac{\pi}{a}} \text{ , where } a\equiv \alpha t \text{ and } b\equiv -\frac{ix}{2\alpha t}.
-\end{align*}\]</span></p>
-<p>Now we take the convolution of <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span>: <span class="math display">\[\begin{align*}
-    u(x,t) &amp;= f * g = \frac{1}{\sqrt{4\pi\alpha t}}\int_{-\infty}^{\infty}\delta(x'-x+100)\exp\left[-\frac{x'^2}{4\alpha t}\right]\,dx' \\
-    &amp;= \frac{1}{\sqrt{4\pi\alpha t}}\exp\left[-\frac{(x-100)^2}{4\alpha t}\right]
-\end{align*}\]</span></p>
-<div id="668e6a34" class="cell" data-execution_count="80">
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/brownian_motion-cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>TODO: - alpha is set to 0.0055 and it fits. Analytically derive the volatility and find the optimal alpha value.</p>
-</section>
-</section>
-<a class="quarto-notebook-link" id="nblink-1" href="brownian_motion-preview.html#ca18b4b6">Source: How to Predict Stock Prices Using Random Walks</a></section>
+  <section>
+    <h2 class="section-title anchored">Presentations</h2>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Performance Study of HLT for VBF at √s = 13.6 TeV</span>
+        <span class="entry-date">November 2023</span>
+      </div>
+      <ul>
+        <li>Presented the result of the efficiency study on the HLT trigger path for VBF processes dedicated to producing parking datasets at the CMS Trigger Study Group and APS DNP-JPS Fall 2023 conference.</li>
+      </ul>
+    </div>
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">SUEPs in ZS Production Mode</span>
+        <span class="entry-date">July 2022</span>
+      </div>
+      <ul>
+        <li>Presented theoretical mechanism and properties of SUEP processes, track selection and momentum reconstruction methods, event selection procedure and sensitivity, and background estimation using the ABCD method.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title anchored">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-label">Programming</span>
+        <span class="skill-value">Python, C++, SQL, HTML/CSS (Flask), Git, Linux, LaTeX</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Hardware / Firmware</span>
+        <span class="skill-value">FPGA design (Vivado, Vitis), RTL (VHDL, Verilog), High Level Synthesis</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Languages</span>
+        <span class="skill-value">English (bilingual), Korean (native), French (conversational)</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<style>
+.about-page { max-width: 820px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+.about-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #1e1e24; }
+.about-header h1 { font-size: 2.4rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem; border: none; }
+.about-header h1 em { font-style: normal; color: #7eb8f7; }
+.about-affiliation { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: #8a8880; letter-spacing: 0.04em; margin-bottom: 1rem; }
+.about-contacts-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.about-contacts { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: #555450; }
+.about-contacts a { color: #8a8880; transition: color 0.15s; text-decoration: none; }
+.about-contacts a:hover { color: #7eb8f7; }
+.about-contacts span { color: #2a2a32; }
+.resume-btn { display: inline-flex; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: #8a8880; border: 1px solid #2a2a32; border-radius: 6px; padding: 0.35rem 0.8rem; transition: color 0.15s, border-color 0.15s; text-decoration: none; }
+.resume-btn:hover { color: #7eb8f7; border-color: #3a6ea8; text-decoration: none; }
+
+section { margin-bottom: 3rem; }
+.section-title { font-family: 'IBM Plex Mono', monospace; font-size: 1.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: #7eb8f7; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid #1e1e24; }
+.entry { margin-bottom: 1.8rem; }
+.entry-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.2rem; }
+.entry-title { font-size: 0.95rem; font-weight: 500; color: #e8e6e0; }
+.entry-date { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: #555450; white-space: nowrap; }
+.entry-sub { font-size: 0.8rem; color: #8a8880; margin-bottom: 0.6rem; font-family: 'IBM Plex Mono', monospace; }
+.entry ul { list-style: none; padding: 0; margin: 0; }
+.entry ul li { font-size: 0.9rem; color: #8a8880; line-height: 1.7; padding-left: 1rem; position: relative; margin-bottom: 0.25rem; }
+.entry ul li::before { content: '–'; position: absolute; left: 0; color: #555450; }
+
+.skills-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+.skill-row { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; align-items: baseline; font-size: 0.875rem; }
+.skill-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: #555450; letter-spacing: 0.03em; }
+.skill-value { color: #8a8880; }
+
+@media (max-width: 600px) {
+  .about-page { padding: 2.5rem 1.2rem 4rem; }
+  .about-header h1 { font-size: 1.8rem; }
+  .entry-header { flex-direction: column; }
+  .skill-row { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+</style>
 
 
 
@@ -731,5 +770,5 @@ g(x,t) &amp;= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{ikx}e^{-\alpha k^2 
 
 
 
-<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
