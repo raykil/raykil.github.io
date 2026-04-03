@@ -19,10 +19,12 @@ app = Flask(__name__)
 scriptPath = os.path.dirname(os.path.abspath(__file__)) # /Users/raymondkil/Desktop/raykil.github.io
 
 def ipynb2html(ipynb_path):
-    # Let's move this to another script.
-    Config().HTMLExporter.embed_images = True
+    c = Config()
+    c.HTMLExporter.embed_images = True
+    c.HTMLExporter.exclude_input_prompt = True
+    c.HTMLExporter.exclude_output_prompt = True
     nb = nbformat.read(ipynb_path, as_version=4)
-    exporter = HTMLExporter(config=Config(), template_name="lab")
+    exporter = HTMLExporter(config=c, template_name="lab")
     body = exporter.from_notebook_node(nb)[0]
     return body
 
@@ -73,6 +75,10 @@ def get_articles_info(dirname):
     # Pass in title in article page.
     # with open(f"{scriptPath}/articles/{dirname}/title.txt", 'r') as t: title = t.read().strip() or dirname
     return render_template("article.html", dirname=dirname, nb_html=nb_html)
+
+@app.route('/omok')
+def omok():
+    return render_template('omok.html')
 
 # @app.route('/particles')
 # def particles():

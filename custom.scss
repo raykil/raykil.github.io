@@ -1,0 +1,284 @@
+/*-- scss:defaults --*/
+
+// ── Color palette ──────────────────────────────────────────────
+$body-bg:            #0d0d0f;
+$body-color:         #e8e6e0;
+$link-color:         #7eb8f7;
+$link-hover-color:   #a8d0ff;
+
+// ── Typography ─────────────────────────────────────────────────
+$font-family-sans-serif: 'IBM Plex Sans', system-ui, sans-serif;
+$font-family-monospace:  'IBM Plex Mono', monospace;
+$font-size-base:         1rem;
+$line-height-base:       1.75;
+$headings-font-weight:   500;
+$headings-color:         #e8e6e0;
+
+// ── Code ───────────────────────────────────────────────────────
+$code-bg:    #131316;
+$code-color: #7eb8f7;
+$pre-bg:     #131316;
+$pre-color:  #e8e6e0;
+
+// ── Borders ────────────────────────────────────────────────────
+$border-color:  #2a2a32;
+$border-radius: 6px;
+
+// ── Navbar ─────────────────────────────────────────────────────
+$navbar-bg:  rgba(13, 13, 15, 0.88);
+$navbar-fg:  #e8e6e0;
+$navbar-hl:  #7eb8f7;
+
+// ── Sidebar / TOC ──────────────────────────────────────────────
+$sidebar-bg: #0d0d0f;
+$sidebar-fg: #8a8880;
+$sidebar-hl: #7eb8f7;
+
+// ── Footer ─────────────────────────────────────────────────────
+$footer-bg: #0d0d0f;
+$footer-fg: #555450;
+
+// ── Cards ──────────────────────────────────────────────────────
+$card-bg:           #131316;
+$card-border-color: #2a2a32;
+
+/*-- scss:rules --*/
+
+// ── Navbar ─────────────────────────────────────────────────────
+.navbar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #1e1e24;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: 54px;
+}
+.navbar .container-fluid { height: 54px; }
+
+// Brand: hide the real text, reconstruct as "ray"(accent) + "kil"(white)
+// This way website.title stays "raykil" for metadata without duplication.
+.navbar-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0 !important;           /* hide the actual "raykil" text */
+  letter-spacing: -0.01em;
+  text-decoration: none !important;
+}
+.navbar-brand::before {
+  content: "ray";
+  color: #7eb8f7;
+  font-size: 1.2rem;
+}
+.navbar-brand::after {
+  content: "kil";
+  color: #e8e6e0;
+  font-size: 1.2rem;
+}
+
+.navbar-nav .nav-link {
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  color: #8a8880 !important;
+  transition: color 0.15s;
+  padding: 0 !important;
+  margin-left: 2rem;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #e8e6e0 !important;
+}
+
+// ── TOC ────────────────────────────────────────────────────────
+#TOC {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  background: #131316;
+  border: 1px solid #1e1e24;
+  border-radius: 6px;
+  padding: 1rem;
+}
+#TOC a {
+  color: #8a8880;
+  transition: color 0.15s;
+}
+#TOC a:hover,
+#TOC .active > a {
+  color: #7eb8f7;
+  text-decoration: none;
+}
+
+// ── Margin / sidenote column ───────────────────────────────────
+.column-margin {
+  font-size: 0.85rem;
+  color: #8a8880;
+  border-left: 2px solid #2a2a32;
+  padding-left: 0.75rem;
+  line-height: 1.5;
+}
+.column-margin a {
+  color: #7eb8f7;
+}
+
+// ── Callout blocks (collapsible derivations) ───────────────────
+.callout {
+  background: #131316;
+  border: 1px solid #2a2a32;
+  border-radius: 6px;
+}
+.callout-header {
+  background: #1a1a1e;
+  border-radius: 6px 6px 0 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.875rem;
+  color: #e8e6e0;
+}
+.callout-body {
+  color: #e8e6e0;
+}
+// Note callouts use accent color on the border
+.callout-note {
+  border-left-color: #7eb8f7 !important;
+}
+.callout-tip {
+  border-left-color: #98d4a3 !important;
+}
+.callout-warning {
+  border-left-color: #f0c07a !important;
+}
+
+// ── Code blocks ────────────────────────────────────────────────
+pre.sourceCode {
+  background: #131316 !important;
+  border: 1px solid #2a2a32 !important;
+  border-left: 3px solid #2a2a32 !important;
+  border-radius: 6px !important;
+}
+
+// Inline code
+code:not(pre > code) {
+  background: #1a1a1e;
+  border: 1px solid #1e1e24;
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  color: #7eb8f7;
+  font-size: 0.875em;
+}
+
+// ── Body text — override darkly theme's pure-white defaults ────
+body { color: #e8e6e0 !important; }
+p, li, td, th, label { color: #e8e6e0; }
+h1, h2, h3, h4, h5, h6 { color: #e8e6e0 !important; }
+h1 { border-bottom: 1px solid #1e1e24; padding-bottom: 0.4rem; }
+
+// ── Homepage hero ───────────────────────────────────────────────
+.home-hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+}
+.hero-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  color: #7eb8f7 !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.hero-eyebrow a { text-decoration: none; color: inherit; }
+.hero-eyebrow a:hover { text-decoration: underline; }
+.hero-name {
+  font-size: 2.8rem !important;
+  font-weight: 400 !important;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+  color: #e8e6e0 !important;
+  border: none !important;
+  padding: 0 !important;
+}
+.hero-name em { font-style: normal; color: #7eb8f7; }
+.hero-bio {
+  font-size: 1.05rem;
+  color: #8a8880 !important;
+  max-width: 560px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+.hero-links { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  color: #8a8880 !important;
+  border: 1px solid #2a2a32;
+  border-radius: 6px;
+  padding: 0.35rem 0.8rem;
+  transition: color 0.15s, border-color 0.15s;
+  text-decoration: none !important;
+}
+.hero-link:hover { color: #7eb8f7 !important; border-color: #3a6ea8; }
+.inline-link {
+  color: #8a8880 !important;
+  text-decoration: underline;
+  text-decoration-color: #2a2a32;
+  text-underline-offset: 3px;
+}
+.inline-link:hover { color: #7eb8f7 !important; }
+
+// ── Footer ─────────────────────────────────────────────────────
+footer.footer {
+  border-top: 1px solid #1e1e24;
+  background: #0d0d0f;
+  padding: 2rem 0;
+}
+.nav-footer {
+  max-width: 760px;
+  margin: 0 auto !important;
+  padding: 0 2rem;
+  border-top: none !important;
+  justify-content: space-between !important;
+  align-items: center;
+}
+.nav-footer-left,
+.nav-footer-center,
+.nav-footer-right {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  color: #555450 !important;
+  flex: unset !important;
+}
+.nav-footer-center { display: none; }
+.nav-footer a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  color: #555450 !important;
+  transition: color 0.15s;
+  text-decoration: none;
+  margin-left: 1.2rem;
+}
+.nav-footer a:first-child { margin-left: 0; }
+.nav-footer a:hover { color: #7eb8f7 !important; text-decoration: none; }
+
+// ── Article listing cards ──────────────────────────────────────
+.quarto-listing .list-item {
+  border-bottom: 1px solid #1e1e24;
+  padding: 1.2rem 0;
+  transition: color 0.15s;
+}
+.quarto-listing .list-item:hover {
+  color: #7eb8f7;
+}
+.quarto-listing .listing-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #e8e6e0;
+}
+.quarto-listing .listing-description {
+  font-size: 0.8rem;
+  color: #555450;
+  font-style: italic;
+}
+
+// ── Smooth scroll ──────────────────────────────────────────────
+html { scroll-behavior: smooth; }

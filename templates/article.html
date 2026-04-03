@@ -1,21 +1,55 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Raymond Kil - Notre Dame Physics</title> <!--Need to feed in title from app.py-->
+<title>{{ dirname }} — Raymond Kil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
 {% endblock %}
 
-{% block title %}Raymond Kil - {{ dirname }}{% endblock %}
-
 {% block body %}
-  <h1>Placeholder</h1>
-
-  <div class="article-layout">
-    <nav class="contents-nav"></nav>
-    <article class="notebook-container">
-      {{ nb_html|safe }}
-    </article>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><span>ray</span>kil</a>
+    <ul class="nav-links">
+      <li><a href="/about">About</a></li>
+      <li><a href="/articles/" class="active">Articles</a></li>
+      <li><a href="/omok">Omok</a></li>
+    </ul>
   </div>
-  <a href="{{ url_for('articles') }}" class="return-home-btn">Return to Articles</a>
-  <script src="{{ url_for('static', filename='js/article_toc.js') }}"></script>
+</nav>
+
+<div class="article-outer">
+  <nav class="contents-nav"></nav>
+  <article class="notebook-container">
+    {{ nb_html|safe }}
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-left">© 2026 Raymond Kil · Notre Dame</span>
+    <div class="footer-social">
+      <a href="mailto:jkil@nd.edu">Email</a>
+      <a href="https://github.com/raykil" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/jungminkil/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/article_toc.js') }}"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      tags: 'ams',
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    },
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
 {% endblock %}

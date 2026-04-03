@@ -1,7 +1,18 @@
 *archive
+
+# Quarto source files
+*.qmd
 build/*
+
+# Quarto build output and cache
+_site/
+.quarto/
+*_cache/
+*_files/
 
 # Ignore all article subdirectories except those published in articles/index.json
 articles/*
 !articles/index.json
 !articles/Brownian_motion
+/.quarto/
+**/*.quarto_ipynb

@@ -1,0 +1,761 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Omok — Raymond Kil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #0d0d0f;
+    --bg-card:    #131316;
+    --bg-raised:  #1a1a1e;
+    --border:     #2a2a32;
+    --border-dim: #1e1e24;
+    --text:       #e8e6e0;
+    --text-muted: #8a8880;
+    --text-dim:   #555450;
+    --accent:     #7eb8f7;
+    --accent-dim: #3a6ea8;
+    --font-sans:  'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono:  'IBM Plex Mono', 'Fira Code', monospace;
+    --radius:     6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,15,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .nav-inner {
+    max-width: 900px; margin: 0 auto; padding: 0 2rem;
+    height: 54px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand {
+    font-family: var(--font-mono); font-size: 1.2rem; color: var(--text);
+    letter-spacing: -0.01em; text-decoration: none; margin-right: 3rem;
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-brand:hover { text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    color: var(--text-muted); font-size: 0.875rem; letter-spacing: 0.02em;
+    transition: color 0.15s; font-family: var(--font-sans);
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); text-decoration: none; }
+
+  /* PAGE LAYOUT */
+  .omok-page {
+    max-width: 900px; margin: 0 auto; padding: 3rem 2rem 4rem;
+  }
+
+  .omok-header { margin-bottom: 1.5rem; }
+  .omok-header h1 { font-size: 2rem; font-weight: 400; letter-spacing: -0.02em; }
+  .omok-header h1 em { font-style: normal; color: var(--accent); }
+  .omok-header p {
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.3rem;
+  }
+
+  /* CONTROLS */
+  .omok-controls {
+    display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .ctrl-btn {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--text-muted); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.3rem 0.9rem;
+    background: none; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+  }
+  .ctrl-btn:hover { color: var(--accent); border-color: var(--accent-dim); }
+  .ctrl-btn.active { color: var(--accent); border-color: var(--accent-dim); }
+
+  /* STONE PICKER */
+  .stone-picker {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+  .stone-picker-label {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase;
+    margin-right: 0.2rem;
+  }
+  .stone-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--text-muted); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.3rem 0.9rem;
+    background: none; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+  }
+  .stone-btn:hover { color: var(--text); border-color: var(--border); }
+  .stone-btn.active { color: var(--accent); border-color: var(--accent-dim); }
+  .stone-dot {
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+  }
+  .stone-dot.black { background: radial-gradient(circle at 35% 35%, #666, #111); border: 1px solid #000; }
+  .stone-dot.white { background: radial-gradient(circle at 35% 35%, #fff, #bbb); border: 1px solid #777; }
+  .stone-picker.hidden { display: none; }
+
+  /* BOARD + THEME LAYOUT */
+  .omok-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .theme-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.25rem;
+    flex-shrink: 0;
+  }
+  .theme-sidebar-label {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 0.1rem;
+  }
+  .theme-btn {
+    display: block;
+    width: 64px; height: 64px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    padding: 0; background: none;
+  }
+  .theme-btn:hover  { border-color: var(--text-muted); }
+  .theme-btn.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-dim); }
+
+  /* CANVAS WRAPPER */
+  .omok-board-wrapper {
+    display: inline-block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: crosshair;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
+  #omok-canvas { display: block; }
+
+  /* STATUS */
+  #omok-status {
+    margin-top: 1rem;
+    font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted);
+    min-height: 1.4em;
+  }
+  #omok-status.winner { color: var(--accent); font-size: 1rem; }
+
+  /* CONFIRM MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.8rem 2rem;
+    max-width: 340px; width: 90%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  }
+  .modal-box p {
+    font-family: var(--font-sans); font-size: 0.95rem;
+    color: var(--text-muted); line-height: 1.6; margin-bottom: 1.4rem;
+  }
+  .modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; }
+  .modal-btn {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    border-radius: var(--radius); padding: 0.35rem 1rem;
+    cursor: pointer; border: 1px solid var(--border);
+    background: none; transition: color 0.15s, border-color 0.15s;
+  }
+  .modal-btn.cancel { color: var(--text-dim); }
+  .modal-btn.cancel:hover { color: var(--text-muted); border-color: var(--text-dim); }
+  .modal-btn.confirm { color: var(--accent); border-color: var(--accent-dim); }
+  .modal-btn.confirm:hover { background: var(--accent-dim); color: var(--text); }
+
+  /* ABOUT SECTION */
+  .omok-about {
+    margin-top: 3rem; border-top: 1px solid var(--border-dim); padding-top: 2rem;
+    max-width: 640px;
+  }
+  .omok-about h2 { font-size: 1rem; font-weight: 500; margin-bottom: 0.8rem; }
+  .omok-about p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; }
+
+  /* FOOTER */
+  .site-footer { border-top: 1px solid var(--border-dim); padding: 2rem; margin-top: 4rem; }
+  .footer-inner {
+    max-width: 760px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-left { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim); }
+  .footer-social { display: flex; gap: 1.2rem; }
+  .footer-social a { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim); transition: color 0.15s; }
+  .footer-social a:hover { color: var(--accent); text-decoration: none; }
+</style>
+{% endblock %}
+
+{% block body %}
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><span>ray</span>kil</a>
+    <ul class="nav-links">
+      <li><a href="/about">About</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/omok" class="active">Omok</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="omok-page">
+  <header class="omok-header">
+    <h1>Omok <em>(오목)</em></h1>
+    <p>Gomoku · 15×15 grid · Connect five to win</p>
+  </header>
+
+  <div class="omok-controls">
+    <button class="ctrl-btn active" id="btn-ai">vs AI</button>
+    <button class="ctrl-btn" id="btn-2p">2 Players</button>
+    <button class="ctrl-btn" id="btn-undo">Undo</button>
+    <button class="ctrl-btn" id="btn-new">New Game</button>
+  </div>
+
+  <div class="stone-picker" id="stone-picker">
+    <span class="stone-picker-label">Play as</span>
+    <button class="stone-btn active" id="btn-black">
+      <span class="stone-dot black"></span>Black — attacks first
+    </button>
+    <button class="stone-btn" id="btn-white">
+      <span class="stone-dot white"></span>White — attacks later
+    </button>
+  </div>
+
+  <div class="omok-layout">
+    <div class="theme-sidebar">
+      <span class="theme-sidebar-label">Board</span>
+      <button class="theme-btn active" id="theme-original" title="Original"></button>
+      <button class="theme-btn" id="theme-dark" title="Dark mode"></button>
+    </div>
+    <div class="omok-board-wrapper">
+      <canvas id="omok-canvas"></canvas>
+    </div>
+  </div>
+
+  <div id="omok-status">Black's turn · Move 1</div>
+
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box">
+      <p id="modal-msg">Start a new game?</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" id="modal-cancel">Cancel</button>
+        <button class="modal-btn confirm" id="modal-confirm">New game</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="omok-about">
+    <h2>About this game</h2>
+    <p>
+      Omok (오목) is Gomoku — two players alternate placing black and white stones on a 15×15 grid.
+      The first to align five stones horizontally, vertically, or diagonally wins.
+      Black always plays first and opens at the center. The AI picks its moves from
+      candidate squares near existing stones. Source on <a href="https://github.com/raykil/Omok" target="_blank" rel="noopener">GitHub</a>.
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-left">© 2026 Raymond Kil · Notre Dame</span>
+    <div class="footer-social">
+      <a href="mailto:jkil@nd.edu">Email</a>
+      <a href="https://github.com/raykil" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/jungminkil/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────
+const N    = 15;   // board size
+const UNIT = 40;   // pixels per cell
+const PAD  = 2 * UNIT; // padding around the grid
+const CANVAS_SIZE = PAD * 2 + (N - 1) * UNIT;
+
+// ─────────────────────────────────────────────
+// CANVAS SETUP
+// ─────────────────────────────────────────────
+const canvas = document.getElementById('omok-canvas');
+const ctx    = canvas.getContext('2d');
+canvas.width  = CANVAS_SIZE;
+canvas.height = CANVAS_SIZE;
+
+const bgImage = new Image();
+bgImage.src = "{{ url_for('static', filename='images/boardbg.jpg') }}";
+// onload assigned after drawThemePreview is defined (see START block)
+
+// ─────────────────────────────────────────────
+// GAME STATE
+// ─────────────────────────────────────────────
+// boardTracker[r][c]: 0=empty, 1=black, -1=white, 2=border
+let boardTracker = [];
+let eventTracker = []; // [[r,c], ...]
+let isTerminal   = false;
+let aiMode       = true;
+let myPlayer     = 1;  // human plays Black (1); AI plays White (-1)
+
+function initGame() {
+  boardTracker = [];
+  for (let r = 0; r < N + 4; r++) {
+    boardTracker.push([]);
+    for (let c = 0; c < N + 4; c++) {
+      boardTracker[r].push((r < N && c < N) ? 0 : 2);
+    }
+  }
+  eventTracker = [];
+  isTerminal   = false;
+}
+
+function _placeStone([r, c]) {
+  const player = eventTracker.length % 2 === 0 ? 1 : -1;
+  boardTracker[r][c] = player;
+  eventTracker.push([r, c]);
+  return player;
+}
+
+function removeStone() {
+  if (eventTracker.length === 0) return;
+  const [r, c] = eventTracker.pop();
+  boardTracker[r][c] = 0;
+  isTerminal = false;
+}
+
+// ─────────────────────────────────────────────
+// WIN CHECK  (5-in-a-row in any direction)
+// ─────────────────────────────────────────────
+function checkWin(r, c, player) {
+  const dirs = [[-1,-1,1,1], [-1,0,1,0], [-1,1,1,-1], [0,-1,0,1]];
+  for (const [dr1,dc1,dr2,dc2] of dirs) {
+    let cnt = 1;
+    for (let n = 1; n <= 4; n++) {
+      const nr = r + dr1*n, nc = c + dc1*n;
+      if (nr >= 0 && nr < N && nc >= 0 && nc < N && boardTracker[nr][nc] === player) cnt++;
+      else break;
+    }
+    for (let n = 1; n <= 4; n++) {
+      const nr = r + dr2*n, nc = c + dc2*n;
+      if (nr >= 0 && nr < N && nc >= 0 && nc < N && boardTracker[nr][nc] === player) cnt++;
+      else break;
+    }
+    if (cnt >= 5) return true;
+  }
+  return false;
+}
+
+// ─────────────────────────────────────────────
+// AI  (port of brain.GetEventCand / GetNextMove)
+// ─────────────────────────────────────────────
+function getEventCands(maxSpace = 2) {
+  const seen  = new Set();
+  const cands = [];
+  for (const [sr, sc] of eventTracker) {
+    for (let dr = -maxSpace; dr <= maxSpace; dr++) {
+      for (let dc = -maxSpace; dc <= maxSpace; dc++) {
+        const nr = sr + dr, nc = sc + dc;
+        const key = `${nr},${nc}`;
+        if (nr >= 0 && nr < N && nc >= 0 && nc < N &&
+            boardTracker[nr][nc] === 0 && !seen.has(key)) {
+          seen.add(key);
+          cands.push([nr, nc]);
+        }
+      }
+    }
+  }
+  return cands;
+}
+
+function getNextMove() {
+  const cands = getEventCands();
+  if (cands.length === 0) return [Math.floor(N / 2), Math.floor(N / 2)]; // empty board fallback
+  return cands[Math.floor(Math.random() * cands.length)];
+}
+
+// ─────────────────────────────────────────────
+// THEMES
+// ─────────────────────────────────────────────
+const THEMES = {
+  original: {
+    bgDraw(c, w, h) {
+      if (bgImage.complete && bgImage.naturalWidth > 0) c.drawImage(bgImage, 0, 0, w, h);
+      else { c.fillStyle = '#c8a060'; c.fillRect(0, 0, w, h); }
+    },
+    gridColor:  'rgba(30,20,10,0.75)',
+    gridWidth:  1.5,
+    gridGlow:   null,
+    starColor:  'rgba(30,20,10,0.85)',
+    labelColor: 'rgba(80,55,30,0.75)',
+  },
+  dark: {
+    bgDraw(c, w, h) { c.fillStyle = '#080a10'; c.fillRect(0, 0, w, h); },
+    gridColor:  '#00e5ff',
+    gridWidth:  1,
+    gridGlow:   { color: '#00e5ff', blur: 10 },
+    starColor:  '#00e5ff',
+    labelColor: 'rgba(0,229,255,0.45)',
+  },
+};
+let currentTheme = 'original';
+
+// ─────────────────────────────────────────────
+// COORDINATE HELPERS
+// ─────────────────────────────────────────────
+function gridToCanvas(r, c) {
+  return [PAD + c * UNIT, PAD + r * UNIT];
+}
+
+function canvasToGrid(x, y) {
+  return [Math.round((y - PAD) / UNIT), Math.round((x - PAD) / UNIT)];
+}
+
+// ─────────────────────────────────────────────
+// RENDERING
+// ─────────────────────────────────────────────
+const STAR_POINTS = [[3,3],[3,11],[11,3],[11,11],[7,7]];
+
+function applyGlow(c, glow) {
+  if (glow) { c.shadowColor = glow.color; c.shadowBlur = glow.blur; }
+  else       { c.shadowColor = 'transparent'; c.shadowBlur = 0; }
+}
+
+function render() {
+  const T = THEMES[currentTheme];
+
+  // Background
+  T.bgDraw(ctx, CANVAS_SIZE, CANVAS_SIZE);
+
+  // Grid lines
+  applyGlow(ctx, T.gridGlow);
+  ctx.strokeStyle = T.gridColor;
+  ctx.lineWidth   = T.gridWidth;
+  for (let i = 0; i < N; i++) {
+    const [x0, y0] = gridToCanvas(i, 0);
+    const [x1, y1] = gridToCanvas(i, N - 1);
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    const [ax, ay] = gridToCanvas(0, i);
+    const [bx, by] = gridToCanvas(N - 1, i);
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+  }
+
+  // Star points (hoshi)
+  ctx.fillStyle = T.starColor;
+  for (const [r, c] of STAR_POINTS) {
+    const [x, y] = gridToCanvas(r, c);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+  }
+  applyGlow(ctx, null);
+
+  // Coordinate labels
+  ctx.fillStyle    = T.labelColor;
+  ctx.font         = `${Math.floor(UNIT * 0.45)}px IBM Plex Mono, monospace`;
+  ctx.textAlign    = 'center';
+  ctx.textBaseline = 'middle';
+  for (let i = 0; i < N; i++) {
+    const [gx]  = gridToCanvas(0, i);
+    const [, gy] = gridToCanvas(i, 0);
+    ctx.fillText(String(i), gx, PAD - UNIT * 0.75);
+    ctx.fillText(String(i), PAD - UNIT * 0.75, gy);
+  }
+
+  // Stones
+  const stoneR = UNIT * 0.44;
+  for (let idx = 0; idx < eventTracker.length; idx++) {
+    const [r, c]   = eventTracker[idx];
+    const [cx, cy] = gridToCanvas(r, c);
+    const isBlack  = (idx % 2 === 0);
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, stoneR, 0, Math.PI * 2);
+    const grad = ctx.createRadialGradient(cx - stoneR*0.3, cy - stoneR*0.3, stoneR*0.05, cx, cy, stoneR);
+    if (isBlack) { grad.addColorStop(0, '#666'); grad.addColorStop(1, '#111'); }
+    else         { grad.addColorStop(0, '#fff'); grad.addColorStop(1, '#bbb'); }
+    ctx.fillStyle   = grad;
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
+    ctx.fill();
+    ctx.strokeStyle = isBlack ? '#000' : '#777';
+    ctx.lineWidth   = 0.8;
+    ctx.stroke();
+
+    // Last-move marker
+    if (idx === eventTracker.length - 1) {
+      ctx.beginPath();
+      ctx.arc(cx, cy, stoneR * 0.28, 0, Math.PI * 2);
+      ctx.fillStyle = isBlack ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.45)';
+      ctx.fill();
+    }
+  }
+
+  updateStatus();
+}
+
+// ─────────────────────────────────────────────
+// THEME PREVIEW BUTTONS  (mini canvas inside each button)
+// ─────────────────────────────────────────────
+function drawThemePreview(btn, themeKey) {
+  const mini = document.createElement('canvas');
+  const S = 60, P = 8, LINES = 5, STEP = (S - P*2) / (LINES - 1);
+  mini.width = S; mini.height = S;
+  mini.style.cssText = 'display:block;border-radius:4px;';
+  const mc = mini.getContext('2d');
+  const T  = THEMES[themeKey];
+
+  T.bgDraw(mc, S, S);
+
+  if (T.gridGlow) { mc.shadowColor = T.gridGlow.color; mc.shadowBlur = T.gridGlow.blur; }
+  mc.strokeStyle = T.gridColor;
+  mc.lineWidth   = T.gridWidth;
+  for (let i = 0; i < LINES; i++) {
+    const v = P + i * STEP;
+    mc.beginPath(); mc.moveTo(P, v);    mc.lineTo(S - P, v);    mc.stroke();
+    mc.beginPath(); mc.moveTo(v, P);    mc.lineTo(v,    S - P); mc.stroke();
+  }
+  mc.shadowColor = 'transparent'; mc.shadowBlur = 0;
+
+  // Two stones (black center-left, white center-right)
+  const stoneR = STEP * 0.44;
+  [[P + STEP, P + STEP, true], [P + 3*STEP, P + STEP, false]].forEach(([sx, sy, blk]) => {
+    mc.beginPath(); mc.arc(sx, sy, stoneR, 0, Math.PI * 2);
+    const g = mc.createRadialGradient(sx - stoneR*0.3, sy - stoneR*0.3, 1, sx, sy, stoneR);
+    if (blk) { g.addColorStop(0,'#666'); g.addColorStop(1,'#111'); }
+    else      { g.addColorStop(0,'#fff'); g.addColorStop(1,'#bbb'); }
+    mc.fillStyle = g; mc.fill();
+    mc.strokeStyle = blk ? '#000' : '#777'; mc.lineWidth = 0.8; mc.stroke();
+  });
+
+  btn.innerHTML = '';
+  btn.appendChild(mini);
+}
+
+function setupThemeButtons() {
+  const btnOriginal = document.getElementById('theme-original');
+  const btnDark     = document.getElementById('theme-dark');
+  drawThemePreview(btnOriginal, 'original');
+  drawThemePreview(btnDark,     'dark');
+
+  function selectTheme(key, btn) {
+    currentTheme = key;
+    btnOriginal.classList.toggle('active', key === 'original');
+    btnDark.classList.toggle('active',     key === 'dark');
+    render();
+  }
+  btnOriginal.addEventListener('click', () => selectTheme('original'));
+  btnDark.addEventListener('click',     () => selectTheme('dark'));
+}
+
+// ─────────────────────────────────────────────
+// STATUS BAR
+// ─────────────────────────────────────────────
+function updateStatus() {
+  const el    = document.getElementById('omok-status');
+  const move  = eventTracker.length;
+  const turn  = move % 2 === 0 ? 'Black' : 'White';
+
+  if (isTerminal) {
+    const winner = move % 2 === 0 ? 'White' : 'Black';
+    el.textContent = `${winner} wins! · ${move} moves played`;
+    el.className   = 'winner';
+  } else {
+    el.textContent = `${turn}'s turn · Move ${move + 1}`;
+    el.className   = '';
+  }
+}
+
+// ─────────────────────────────────────────────
+// PLAYER INPUT
+// ─────────────────────────────────────────────
+canvas.addEventListener('click', handleClick);
+canvas.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  const t   = e.changedTouches[0];
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width  / rect.width;
+  const scaleY = canvas.height / rect.height;
+  handleClick({ clientX: t.clientX, clientY: t.clientY }, rect, scaleX, scaleY);
+}, { passive: false });
+
+function handleClick(e, rect, scaleX, scaleY) {
+  if (isTerminal) return;
+
+  rect   = rect   || canvas.getBoundingClientRect();
+  scaleX = scaleX || canvas.width  / rect.width;
+  scaleY = scaleY || canvas.height / rect.height;
+
+  const x = (e.clientX - rect.left) * scaleX;
+  const y = (e.clientY - rect.top)  * scaleY;
+  const [r, c] = canvasToGrid(x, y);
+
+  if (r < 0 || r >= N || c < 0 || c >= N) return;
+  if (boardTracker[r][c] !== 0) return;
+
+  const currentPlayer = eventTracker.length % 2 === 0 ? 1 : -1;
+
+  // In AI mode, only accept input on the human's turn
+  if (aiMode && currentPlayer !== myPlayer) return;
+
+  const placed = _placeStone([r, c]);
+  if (checkWin(r, c, placed)) {
+    isTerminal = true;
+    render();
+    return;
+  }
+  render();
+
+  // Trigger AI move after a short delay
+  if (aiMode && !isTerminal) {
+    setTimeout(aiMove, 120);
+  }
+}
+
+function aiMove() {
+  if (isTerminal) return;
+  const move = getNextMove();
+  if (!move) return;
+  const placed = _placeStone(move);
+  if (checkWin(move[0], move[1], placed)) isTerminal = true;
+  render();
+}
+
+// ─────────────────────────────────────────────
+// CONFIRM MODAL
+// ─────────────────────────────────────────────
+let pendingAction = null;
+
+function confirmThen(msg, action) {
+  // Skip prompt if no game is in progress
+  if (eventTracker.length === 0) { action(); return; }
+  document.getElementById('modal-msg').textContent = msg;
+  pendingAction = action;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+document.getElementById('modal-confirm').addEventListener('click', () => {
+  document.getElementById('confirm-modal').classList.remove('open');
+  if (pendingAction) { pendingAction(); pendingAction = null; }
+});
+
+document.getElementById('modal-cancel').addEventListener('click', () => {
+  document.getElementById('confirm-modal').classList.remove('open');
+  pendingAction = null;
+});
+
+document.getElementById('confirm-modal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('confirm-modal')) {
+    document.getElementById('confirm-modal').classList.remove('open');
+    pendingAction = null;
+  }
+});
+
+// ─────────────────────────────────────────────
+// CONTROL BUTTONS
+// ─────────────────────────────────────────────
+function setStonePickerVisible(visible) {
+  document.getElementById('stone-picker').classList.toggle('hidden', !visible);
+}
+
+function selectStone(player) {
+  myPlayer = player;
+  document.getElementById('btn-black').classList.toggle('active', player === 1);
+  document.getElementById('btn-white').classList.toggle('active', player === -1);
+  initGame();
+  if (aiMode && myPlayer === -1) {
+    render();
+    setTimeout(aiMove, 120);
+  } else {
+    render();
+  }
+}
+
+document.getElementById('btn-black').addEventListener('click', () => selectStone(1));
+document.getElementById('btn-white').addEventListener('click', () => selectStone(-1));
+
+document.getElementById('btn-ai').addEventListener('click', () => {
+  if (aiMode) return; // already in AI mode, nothing to do
+  confirmThen('Switch to vs AI and start a new game?', () => {
+    aiMode = true;
+    document.getElementById('btn-ai').classList.add('active');
+    document.getElementById('btn-2p').classList.remove('active');
+    setStonePickerVisible(true);
+    selectStone(myPlayer);
+  });
+});
+
+document.getElementById('btn-2p').addEventListener('click', () => {
+  if (!aiMode) return; // already in 2-player mode
+  confirmThen('Switch to 2 Players and start a new game?', () => {
+    aiMode = false;
+    document.getElementById('btn-2p').classList.add('active');
+    document.getElementById('btn-ai').classList.remove('active');
+    setStonePickerVisible(false);
+    initGame(); render();
+  });
+});
+
+document.getElementById('btn-undo').addEventListener('click', () => {
+  if (aiMode) {
+    removeStone();
+    removeStone();
+    if (myPlayer === -1 && eventTracker.length === 0) {
+      render();
+      setTimeout(aiMove, 120);
+      return;
+    }
+  } else {
+    removeStone();
+  }
+  render();
+});
+
+document.getElementById('btn-new').addEventListener('click', () => {
+  confirmThen('Abandon the current game and start a new one?', () => selectStone(myPlayer));
+});
+
+// ─────────────────────────────────────────────
+// START
+// ─────────────────────────────────────────────
+bgImage.onload = () => {
+  drawThemePreview(document.getElementById('theme-original'), 'original');
+  render();
+};
+setupThemeButtons();
+setStonePickerVisible(true); // AI mode is default
+initGame();
+render();
+</script>
+{% endblock %}
