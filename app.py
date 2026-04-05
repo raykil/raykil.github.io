@@ -1,32 +1,21 @@
 """
-How to view webpage: 
-  - run `python app.py` on Terminal.
-  - There will be a link being printed out (usually http://127.0.0.1:5000)
-  - Copy and paste the local host address to Safari.
-  - To reflect the changes in code, I should refresh the Safari page.
-  - To exit, press CTRL+C
-
-The new version does not list the articles using database.
+Run `python app.py` on Terminal, and paste http://127.0.0.1:5000 (printed when the command is run) on Safari.
+Use -q / --quarto to run `quarto render` before starting the server.
+Raymond Kil, April 2026
 """
 
-import os, nbformat, json
+import os, json, argparse, subprocess
 from pathlib import Path
-from nbconvert import HTMLExporter
-from traitlets.config import Config
-from flask import Flask, render_template # , send_from_directory, Response
+from bs4 import BeautifulSoup
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
-scriptPath = os.path.dirname(os.path.abspath(__file__)) # /Users/raymondkil/Desktop/raykil.github.io
+scriptPath = os.path.dirname(os.path.abspath(__file__))
 
-def ipynb2html(ipynb_path):
-    c = Config()
-    c.HTMLExporter.embed_images = True
-    c.HTMLExporter.exclude_input_prompt = True
-    c.HTMLExporter.exclude_output_prompt = True
-    nb = nbformat.read(ipynb_path, as_version=4)
-    exporter = HTMLExporter(config=c, template_name="lab")
-    body = exporter.from_notebook_node(nb)[0]
-    return body
+def quarto2html(dirname):
+    path = Path(scriptPath) / "quarto_articles" / "articles" / dirname / "index.html"
+    soup = BeautifulSoup(path.read_text(encoding="utf-8"), "html.parser")
+    return soup.find("main", id="quarto-document-content")
 
 @app.route('/') # run the attached function when the URL in the arg is requested.
 def index():
@@ -62,18 +51,14 @@ def articles():
     return render_template('articles.html', articles=articles_to_show, summaries=summaries)
 
 
+@app.route('/articles/<dirname>/index_files/<path:filename>')
+def article_files(dirname, filename):
+    directory = Path(scriptPath) / "quarto_articles" / "articles" / dirname / "index_files"
+    return send_from_directory(directory, filename)
+
 @app.route('/articles/<dirname>/')
 def get_articles_info(dirname):
-    article_dir = f"{scriptPath}/articles/{dirname}"
-
-    # Finding ipynb notebooks
-    # TODO: change this so that I can display all ipynbs. Ipynbs should be named as 01_hello.ipynb, 02_my.ipynb, ... so that the order is manually specified.
-    notebook_name = [ipynb for ipynb in os.listdir(article_dir) if '.ipynb' in ipynb]
-    ipynb_path = os.path.join(article_dir, notebook_name[0])
-    nb_html = ipynb2html(ipynb_path)
-
-    # Pass in title in article page.
-    # with open(f"{scriptPath}/articles/{dirname}/title.txt", 'r') as t: title = t.read().strip() or dirname
+    nb_html = quarto2html(dirname)
     return render_template("article.html", dirname=dirname, nb_html=nb_html)
 
 @app.route('/omok')
@@ -86,4 +71,11 @@ def omok():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-q", "--quarto", action="store_true", help="If True, generates article page with Quarto, and saves to quarto_articles dir.")
+    args = parser.parse_args()
+
+    if args.quarto:
+        subprocess.run(["quarto", "render"], cwd=scriptPath, check=True)
+
     app.run(debug=True)

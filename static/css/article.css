@@ -109,54 +109,51 @@ nav.site-nav {
    TABLE OF CONTENTS SIDEBAR
    ============================================================ */
 .contents-nav {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 1.5;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
   position: sticky;
   top: 70px;
-  width: 200px;
+  width: 220px;
   flex-shrink: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius);
-  padding: 1rem;
   color: var(--text-dim);
 }
 
-.contents-nav summary {
-  list-style: none;
-  cursor: pointer;
-  color: var(--text-muted);
-  padding: 2px 0;
-  transition: color 0.15s;
+.toc-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-dim);
 }
-.contents-nav summary:hover { color: var(--accent); }
 
-.contents-nav summary::-webkit-details-marker { display: none; }
-.contents-nav summary::after {
-  content: "▶";
-  font-size: 0.7em;
-  margin-left: 6px;
-  transition: transform 0.2s;
-  display: inline-block;
-}
-.contents-nav details[open] > summary::after { transform: rotate(90deg); }
-.contents-nav details:has(ul:empty) > summary::after { content: ""; }
-
-.contents-nav .subsections {
+.toc-list {
   list-style: none;
-  margin: 4px 0 4px 14px;
+  margin: 0;
   padding: 0;
 }
-.contents-nav .subsections li { margin: 2px 0; }
-.contents-nav .subsections a {
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  transition: color 0.15s;
-}
-.contents-nav .subsections a:hover { color: var(--accent); }
 
-details { display: block; }
+.toc-list li { margin: 0; }
+
+.toc-list a {
+  display: block;
+  padding: 0.2rem 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  transition: color 0.15s;
+  line-height: 1.4;
+}
+.toc-list a:hover { color: var(--text); }
+
+.toc-list .toc-h3 a {
+  padding-left: 1rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.toc-list .toc-h3 a:hover { color: var(--text-muted); }
 
 /* ============================================================
    NOTEBOOK CONTAINER — override Jupyter JP variables for dark mode
@@ -338,6 +335,88 @@ details { display: block; }
   border: none;
   padding: 0;
   color: var(--text);
+}
+
+/* ============================================================
+   IMAGES
+   ============================================================ */
+.notebook-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* ============================================================
+   QUARTO CATEGORY TAGS
+   ============================================================ */
+.quarto-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.quarto-category {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.15em 0.6em;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   COLLAPSIBLE DETAILS
+   ============================================================ */
+.notebook-container details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+
+.notebook-container summary {
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
+  transition: color 0.15s, box-shadow 0.3s ease;
+}
+.notebook-container summary::-webkit-details-marker { display: none; }
+.notebook-container summary:hover {
+  color: var(--accent);
+  box-shadow: 0 0 8px 0px var(--accent-dim);
+}
+
+.notebook-container summary::before {
+  content: '▶';
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  transition: transform 0.2s ease;
+}
+.notebook-container details[open] > summary::before {
+  transform: rotate(90deg);
+}
+.notebook-container details[open] > summary {
+  color: var(--text);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.notebook-container details > *:not(summary) {
+  padding: 0 1rem;
+}
+.notebook-container details > *:last-child {
+  padding-bottom: 1rem;
 }
 
 /* ============================================================

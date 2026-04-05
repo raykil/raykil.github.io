@@ -2,11 +2,12 @@
 
 # Quarto source files
 *.qmd
-build/*
 
 # Quarto build output and cache
 _site/
+quarto_articles/
 .quarto/
+/.quarto/
 *_cache/
 *_files/
 
@@ -14,5 +15,8 @@ _site/
 articles/*
 !articles/index.json
 !articles/Brownian_motion
-/.quarto/
 **/*.quarto_ipynb
+
+notes/
+__pycache__
+particles/

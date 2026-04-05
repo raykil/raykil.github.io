@@ -1,42 +1,8 @@
 project:
   type: website
-  output-dir: _site
+  output-dir: quarto_articles
   render:
-    - index.qmd
-    - about.qmd
-    - books.qmd
-    - articles/index.qmd
-    - articles/Brownian_motion/index.qmd
-
-website:
-  title: "raykil"
-
-  navbar:
-    background: "#0d0d0f"
-    foreground: "#e8e6e0"
-    pinned: true
-    search: false
-    right:
-      - text: "About"
-        href: about.qmd
-      - text: "Articles"
-        href: articles/index.qmd
-      - text: "Books"
-        href: books.qmd
-
-  page-footer:
-    background: "#0d0d0f"
-    border: true
-    left: "© 2026 Raymond Kil · Notre Dame"
-    right:
-      - text: "Email"
-        href: "mailto:jkil@nd.edu"
-      - text: "GitHub"
-        href: "https://github.com/raykil"
-        target: "_blank"
-      - text: "LinkedIn"
-        href: "https://www.linkedin.com/in/jungminkil/"
-        target: "_blank"
+    - articles/*/index.qmd
 
 format:
   html:

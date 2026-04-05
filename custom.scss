@@ -53,7 +53,12 @@ $card-border-color: #2a2a32;
   padding-bottom: 0 !important;
   min-height: 54px;
 }
-.navbar .container-fluid { height: 54px; }
+.navbar .container-fluid {
+  height: 54px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
 
 // Brand: hide the real text, reconstruct as "ray"(accent) + "kil"(white)
 // This way website.title stays "raykil" for metadata without duplication.
@@ -66,16 +71,16 @@ $card-border-color: #2a2a32;
 .navbar-brand::before {
   content: "ray";
   color: #7eb8f7;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 .navbar-brand::after {
   content: "kil";
   color: #e8e6e0;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .navbar-nav .nav-link {
-  font-size: 0.875rem;
+  font-size: 1rem;
   letter-spacing: 0.02em;
   color: #8a8880 !important;
   transition: color 0.15s;
