@@ -1,0 +1,232 @@
+<!-- 
+In Flask, the purpose of this page is to serve as a skeleton to many index.html files, 
+so that I can inherit this page and just have to write only the page-specific parts in each index.html file.
+Raymond Kil, August 2025 (jkil@nd.edu)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--mobile compatibility-->
+    <meta name="description" content="About Raymond Kil.">
+    <link rel="icon" href="nd_logo.ico" type="image/x-icon">
+    
+<title>Raymond Kil — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/about.css">
+ <!-- This is a Flask syntax saying "Insert head here." -->
+</head>
+<body>
+    
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand"><span>ray</span>kil</a>
+    <ul class="nav-links">
+      <li><a href="/about" class="active">About</a></li>
+      <li><a href="/articles/">Articles</a></li>
+      <li><a href="/omok">Omok</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="about-page">
+
+  <header class="about-header">
+    <h1>Raymond <em>Jungmin</em> Kil</h1>
+    <p class="about-affiliation">Ph.D. in High Energy Physics Experiment · University of Notre Dame</p>
+    <div class="about-contacts-row">
+      <div class="about-contacts">
+        <a href="mailto:jungminkil0318@gmail.com">jungminkil0318@gmail.com</a>
+        <span>·</span>
+        <a href="tel:+18578691539">(857) 869-1539</a>
+        <span>·</span>
+        <a href="https://www.linkedin.com/in/jungminkil/" target="_blank" rel="noopener">LinkedIn</a>
+        <span>·</span>
+        <a href="https://github.com/raykil" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <a class="resume-btn" href="static/raykil_resume.pdf" target="_blank" rel="noopener">PDF version</a>
+    </div>
+  </header>
+
+  <!-- EDUCATION -->
+  <section>
+    <h2 class="section-title">Education</h2>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">University of Notre Dame</span>
+        <span class="entry-date">Aug 2024 – Expected Spring 2029</span>
+      </div>
+      <div class="entry-sub">Ph.D. in High Energy Physics Experiment · Notre Dame, IN, USA</div>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Boston University</span>
+        <span class="entry-date">May 2023</span>
+      </div>
+      <div class="entry-sub">B.A./M.A. in Physics (Magna Cum Laude) · Boston, MA, USA</div>
+    </div>
+  </section>
+
+  <!-- RESEARCH EXPERIENCE -->
+  <section>
+    <h2 class="section-title">Research Experience</h2>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Lepton Flavor Violation Decays of the Higgs</span>
+        <span class="entry-date">Summer 2024 – Expected Spring 2028</span>
+      </div>
+      <div class="entry-sub">University of Notre Dame</div>
+      <ul>
+        <li>Searched for Beyond Standard Model decays of the Higgs into dimuon states of different flavors (H → eτ/µτ).</li>
+        <li>Analyzed petabyte-scale datasets from the LHC at CERN and developed visualization tools to identify subtle signals.</li>
+        <li>Utilized Boosted Decision Trees to optimize event classification with improved sensitivity to rare physics processes.</li>
+        <li>Implemented statistical/Monte Carlo/data-driven techniques to accurately model event statistics from the LHC.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Phase-2 Upgrade of the Electromagnetic Calorimeter</span>
+        <span class="entry-date">Summer 2024 – Expected Spring 2028</span>
+      </div>
+      <div class="entry-sub">University of Notre Dame</div>
+      <ul>
+        <li>Contributed to the ECAL upgrade for detector sustainability and performance enhancement at High-Luminosity LHC.</li>
+        <li>Designed FPGA logic for 160 MHz analog-to-digital signal processing with High Level Synthesis from C++ to VHDL.</li>
+        <li>Built C++/SQL/RPC-based application for register configuration of scintillating crystals at 40 MHz data-taking condition.</li>
+        <li>Developed and tested Low Power GigaBit Transceiver (lpGBT) ASICs for high temperature/radiation environments.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">High Level Trigger for Vector Boson Fusion Process</span>
+        <span class="entry-date">Summer 2023 – Fall 2023</span>
+      </div>
+      <div class="entry-sub">Boston University</div>
+      <ul>
+        <li>Evaluated the HLT efficiency at CMS for VBF processes and designed new event selection criteria aligned with the data parking strategy, increasing acceptance into regions of phase space previously excluded by bandwidth limits.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Soft Unclustered Energy Pattern (SUEP)</span>
+        <span class="entry-date">Fall 2021 – Spring 2023</span>
+      </div>
+      <div class="entry-sub">Boston University</div>
+      <ul>
+        <li>Searched for exotic decay mode of the Higgs Boson involving Soft Unclustered Energy Pattern (SUEP) signatures.</li>
+        <li>Applied data-driven method to improve reliability in background estimation beyond simulation-based predictions.</li>
+        <li>Developed novel particle clustering algorithm that exploits jet substructure for signal sensitivity enhancement.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ACADEMIC / PROFESSIONAL EXPERIENCE -->
+  <section>
+    <h2 class="section-title">Academic &amp; Professional Experience</h2>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Teaching Assistant</span>
+        <span class="entry-date">Fall 2024 – Spring 2025</span>
+      </div>
+      <div class="entry-sub">University of Notre Dame</div>
+      <ul>
+        <li>Served as assignment grader and teaching assistant for graduate-level electrodynamics.</li>
+        <li>Held office hours for undergraduate-level classical mechanics and thermodynamics.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">ECAL Operations Coordinator</span>
+        <span class="entry-date">June 2024 – August 2024</span>
+      </div>
+      <div class="entry-sub">CERN, CMS</div>
+      <ul>
+        <li>Ensured uninterrupted CMS data-taking by monitoring ECAL detector health and documenting detector anomalies.</li>
+        <li>Coordinated daily run meetings, reporting and managing documentation from all detector parts for future data correction.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Combat Engineer</span>
+        <span class="entry-date">Fall 2019 – Spring 2021</span>
+      </div>
+      <div class="entry-sub">Republic of Korea Army</div>
+      <ul>
+        <li>Promoted the demilitarization of South Korean territory at the vicinity of DMZ by removing unexploded ordnance.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PRESENTATIONS -->
+  <section>
+    <h2 class="section-title">Presentations</h2>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">Performance Study of HLT for VBF at √s = 13.6 TeV</span>
+        <span class="entry-date">November 2023</span>
+      </div>
+      <ul>
+        <li>Presented the result of the efficiency study on the HLT trigger path for VBF processes dedicated to producing parking datasets at the CMS Trigger Study Group and APS DNP-JPS Fall 2023 conference.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-title">SUEPs in ZS Production Mode</span>
+        <span class="entry-date">July 2022</span>
+      </div>
+      <ul>
+        <li>Presented theoretical mechanism and properties of SUEP processes, track selection and momentum reconstruction methods, event selection procedure and sensitivity, and background estimation using the ABCD method.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section>
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-label">Programming</span>
+        <span class="skill-value">Python, C++, SQL, HTML/CSS (Flask), Git, Linux, LaTeX</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Hardware / Firmware</span>
+        <span class="skill-value">FPGA design (Vivado, Vitis), RTL (VHDL, Verilog), High Level Synthesis</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-label">Languages</span>
+        <span class="skill-value">English (bilingual), Korean (native), French (conversational)</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-left">© 2026 Raymond Kil · Notre Dame</span>
+    <div class="footer-social">
+      <a href="mailto:jkil@nd.edu">Email</a>
+      <a href="https://github.com/raykil" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/jungminkil/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+
+</html>

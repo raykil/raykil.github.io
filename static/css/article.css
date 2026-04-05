@@ -1,0 +1,477 @@
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --bg:          #0d0d0f;
+  --bg-card:     #131316;
+  --bg-raised:   #1a1a1e;
+  --bg-hover:    #202026;
+  --border:      #2a2a32;
+  --border-dim:  #1e1e24;
+
+  --text:        #e8e6e0;
+  --text-muted:  #8a8880;
+  --text-dim:    #555450;
+  --accent:      #7eb8f7;
+  --accent-dim:  #3a6ea8;
+
+  --font-sans:   'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:   'IBM Plex Mono', 'Fira Code', monospace;
+
+  --radius:      6px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+/* ============================================================
+   BASE OVERRIDES
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+nav.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 15, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  margin-right: 3rem;
+}
+.nav-brand span { color: var(--accent); }
+.nav-brand:hover { text-decoration: none; }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  transition: color 0.15s;
+  font-family: var(--font-sans);
+}
+.nav-links a:hover,
+.nav-links a.active { color: var(--text); }
+
+/* ============================================================
+   ARTICLE LAYOUT
+   ============================================================ */
+.article-outer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+/* ============================================================
+   TABLE OF CONTENTS SIDEBAR
+   ============================================================ */
+.contents-nav {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  position: sticky;
+  top: 70px;
+  width: 220px;
+  flex-shrink: 0;
+  color: var(--text-dim);
+}
+
+.toc-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-list li { margin: 0; }
+
+.toc-list a {
+  display: block;
+  padding: 0.2rem 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  transition: color 0.15s;
+  line-height: 1.4;
+}
+.toc-list a:hover { color: var(--text); }
+
+.toc-list .toc-h3 a {
+  padding-left: 1rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.toc-list .toc-h3 a:hover { color: var(--text-muted); }
+
+/* ============================================================
+   NOTEBOOK CONTAINER — override Jupyter JP variables for dark mode
+   ============================================================ */
+.notebook-container {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg);
+
+  /* Jupyter CSS variable overrides */
+  --jp-layout-color0:                    #0d0d0f;
+  --jp-layout-color1:                    #131316;
+  --jp-layout-color2:                    #1a1a1e;
+  --jp-layout-color3:                    #202026;
+  --jp-layout-color4:                    #2a2a32;
+
+  --jp-content-font-color0:              #e8e6e0;
+  --jp-content-font-color1:              #e8e6e0;
+  --jp-content-font-color2:              #8a8880;
+  --jp-content-font-color3:              #555450;
+  --jp-content-font-family:             'IBM Plex Sans', system-ui, sans-serif;
+  --jp-code-font-family:                'IBM Plex Mono', monospace;
+
+  --jp-cell-editor-background:           #131316;
+  --jp-cell-editor-active-background:    #1a1a1e;
+  --jp-cell-editor-border-color:         #2a2a32;
+
+  --jp-mirror-editor-variable-color:     #e8e6e0;
+  --jp-mirror-editor-keyword-color:      #7eb8f7;
+  --jp-mirror-editor-string-color:       #98d4a3;
+  --jp-mirror-editor-number-color:       #f0c07a;
+  --jp-mirror-editor-comment-color:      #555450;
+  --jp-mirror-editor-operator-color:     #c8c6c0;
+  --jp-mirror-editor-punctuation-color:  #e8e6e0;
+  --jp-mirror-editor-error-color:        #f77e7e;
+  --jp-mirror-editor-builtin-color:      #c49ed4;
+  --jp-mirror-editor-def-color:          #7eb8f7;
+  --jp-mirror-editor-property-color:     #e8e6e0;
+  --jp-mirror-editor-meta-color:         #7eb8f7;
+
+  --jp-rendermime-figures-background:    transparent;
+  --jp-rendermime-table-row-background:  #131316;
+  --jp-rendermime-table-row-hover-background: #1a1a1e;
+}
+
+/* Override any hard-coded white/light backgrounds in notebook output */
+.notebook-container body,
+.notebook-container .jp-Notebook,
+.notebook-container .jp-Cell,
+.notebook-container .jp-InputArea-editor,
+.notebook-container .jp-OutputArea-output {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+.notebook-container pre,
+.notebook-container code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.notebook-container a.anchor-link { display: none !important; }
+
+/* ============================================================
+   HIDE JUPYTER CHROME — cell counters, collapser widgets
+   ============================================================ */
+.notebook-container .jp-InputPrompt,
+.notebook-container .jp-OutputArea-prompt,
+.notebook-container .jp-Cell-inputCollapser,
+.notebook-container .jp-Cell-outputCollapser,
+.notebook-container .jp-Toolbar { display: none !important; }
+
+/* ============================================================
+   CELL LAYOUT — remove notebook borders, padding
+   ============================================================ */
+.notebook-container .jp-Cell {
+  border-top: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.notebook-container .jp-Cell + .jp-Cell {
+  margin-top: 1.75rem;
+}
+
+/* ============================================================
+   CODE CELLS — clean dark block
+   ============================================================ */
+.notebook-container .jp-CodeCell .jp-InputArea {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+}
+
+.notebook-container .jp-CodeCell .jp-InputArea-editor {
+  background: transparent !important;
+  border: none !important;
+  padding: 0.9rem 1rem !important;
+}
+
+/* Output area below a code cell */
+.notebook-container .jp-OutputArea {
+  background: transparent !important;
+  border: none !important;
+  padding: 0.5rem 0 0 !important;
+}
+
+.notebook-container .jp-OutputArea-output {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* ============================================================
+   MARKDOWN CELLS — article-quality typography
+   ============================================================ */
+.notebook-container .jp-MarkdownCell .jp-MarkdownOutput {
+  padding: 0 !important;
+  font-family: var(--font-sans);
+  color: var(--text);
+  line-height: 1.75;
+}
+
+.notebook-container .jp-MarkdownOutput h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 2.5rem 0 1rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: 0.4rem;
+}
+
+.notebook-container .jp-MarkdownOutput h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 2.25rem 0 0.75rem;
+  color: var(--text);
+}
+
+.notebook-container .jp-MarkdownOutput h3 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 1.75rem 0 0.5rem;
+  color: var(--text);
+}
+
+.notebook-container .jp-MarkdownOutput p {
+  margin: 0.75rem 0;
+  color: var(--text);
+}
+
+.notebook-container .jp-MarkdownOutput ul,
+.notebook-container .jp-MarkdownOutput ol {
+  margin: 0.75rem 0 0.75rem 1.5rem;
+  color: var(--text);
+}
+
+/* Inline code in markdown */
+.notebook-container .jp-MarkdownOutput code {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-dim);
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  font-size: 0.875em;
+  color: var(--accent);
+}
+
+/* Code fences in markdown */
+.notebook-container .jp-MarkdownOutput pre {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  padding: 1rem !important;
+  overflow-x: auto;
+}
+
+.notebook-container .jp-MarkdownOutput pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+
+/* ============================================================
+   IMAGES
+   ============================================================ */
+.notebook-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* ============================================================
+   QUARTO CATEGORY TAGS
+   ============================================================ */
+.quarto-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.quarto-category {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.15em 0.6em;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   COLLAPSIBLE DETAILS
+   ============================================================ */
+.notebook-container details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 1.5rem 0;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+
+.notebook-container summary {
+  cursor: pointer;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
+  transition: color 0.15s, box-shadow 0.3s ease;
+}
+.notebook-container summary::-webkit-details-marker { display: none; }
+.notebook-container summary:hover {
+  color: var(--accent);
+  box-shadow: 0 0 8px 0px var(--accent-dim);
+}
+
+.notebook-container summary::before {
+  content: '▶';
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  transition: transform 0.2s ease;
+}
+.notebook-container details[open] > summary::before {
+  transform: rotate(90deg);
+}
+.notebook-container details[open] > summary {
+  color: var(--text);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.notebook-container details > *:not(summary) {
+  padding: 0 1rem;
+}
+.notebook-container details > *:last-child {
+  padding-bottom: 1rem;
+}
+
+/* ============================================================
+   BACK LINK
+   ============================================================ */
+.back-link {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--accent); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--border-dim);
+  padding: 2rem;
+  margin-top: 4rem;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-left {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.footer-social a {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+.footer-social a:hover { color: var(--accent); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 700px) {
+  .article-outer { flex-direction: column; padding: 2rem 1.2rem 4rem; }
+  .contents-nav { width: 100%; position: static; }
+}
