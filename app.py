@@ -26,7 +26,7 @@ def index():
     # See animation_idea.txt for more.
     return render_template('index.html')
 
-@app.route('/about')
+@app.route('/about/')
 def about():
     return render_template('about.html')
 
@@ -61,7 +61,7 @@ def get_articles_info(dirname):
     nb_html = quarto2html(dirname)
     return render_template("article.html", dirname=dirname, nb_html=nb_html)
 
-@app.route('/omok')
+@app.route('/omok/')
 def omok():
     return render_template('omok.html')
 

@@ -20,3 +20,4 @@ articles/*
 notes/
 __pycache__
 particles/
+build/

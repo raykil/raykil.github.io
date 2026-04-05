@@ -226,9 +226,9 @@
   <div class="nav-inner">
     <a href="/" class="nav-brand"><span>ray</span>kil</a>
     <ul class="nav-links">
-      <li><a href="/about">About</a></li>
+      <li><a href="/about/">About</a></li>
       <li><a href="/articles/">Articles</a></li>
-      <li><a href="/omok" class="active">Omok</a></li>
+      <li><a href="/omok/" class="active">Omok</a></li>
     </ul>
   </div>
 </nav>
@@ -749,10 +749,12 @@ document.getElementById('btn-new').addEventListener('click', () => {
 // ─────────────────────────────────────────────
 // START
 // ─────────────────────────────────────────────
-bgImage.onload = () => {
+function onBgImageReady() {
   drawThemePreview(document.getElementById('theme-original'), 'original');
   render();
-};
+}
+bgImage.onload = onBgImageReady;
+if (bgImage.complete && bgImage.naturalWidth > 0) onBgImageReady();
 setupThemeButtons();
 setStonePickerVisible(true); // AI mode is default
 initGame();
