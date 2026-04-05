@@ -472,16 +472,29 @@ nav.site-nav {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 700px) {
-  .article-outer { flex-direction: column; padding: 1.5rem 1rem 4rem; }
+  html, body { overflow-x: hidden; }
+
+  .article-outer {
+    flex-direction: column;
+    padding: 1.5rem 1rem 4rem;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
   .contents-nav { width: 100%; position: static; }
 
-  .notebook-container { font-size: 0.95rem; overflow-x: hidden; }
+  .notebook-container {
+    font-size: 0.95rem;
+    max-width: 100%;
+    overflow-x: hidden;
+    word-break: break-word;
+  }
   .notebook-container img { max-width: 100%; }
-  .notebook-container pre,
+  .notebook-container pre { overflow-x: auto; max-width: 100%; }
   .notebook-container code { font-size: 0.8rem; }
+  .notebook-container table { display: block; overflow-x: auto; max-width: 100%; }
 
   .notebook-container h1,
-  .notebook-container .quarto-title h1 { font-size: 1.5rem; }
-  .notebook-container h2 { font-size: 1.2rem; }
+  .notebook-container .title { font-size: 1.4rem; }
+  .notebook-container h2 { font-size: 1.15rem; }
   .notebook-container h3 { font-size: 1rem; }
 }
