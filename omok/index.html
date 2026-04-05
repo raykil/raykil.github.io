@@ -162,6 +162,7 @@ Raymond Kil, August 2025 (jkil@nd.edu)
   /* CANVAS WRAPPER */
   .omok-board-wrapper {
     display: inline-block;
+    max-width: 100%;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
@@ -169,7 +170,7 @@ Raymond Kil, August 2025 (jkil@nd.edu)
     box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   }
 
-  #omok-canvas { display: block; }
+  #omok-canvas { display: block; width: 100%; height: auto; }
 
   /* STATUS */
   #omok-status {
